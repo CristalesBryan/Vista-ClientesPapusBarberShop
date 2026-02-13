@@ -1,0 +1,83 @@
+<div class="home-container">
+  <!-- Fondo animado -->
+  <div class="background-container">
+    <div class="pattern-bg">
+      <svg
+        preserveAspectRatio="xMidYMid slice"
+        height="100%"
+        width="100%"
+        class="cube-svg"
+        viewBox="0 0 120 104"
+      >
+        <defs>
+          <linearGradient y2="100%" x2="100%" y1="0%" x1="0%" id="cube-dark">
+            <stop stop-color="#232526" offset="0%"></stop>
+            <stop stop-color="#414345" offset="100%"></stop>
+          </linearGradient>
+          <linearGradient y2="0%" x2="100%" y1="100%" x1="0%" id="cube-mid">
+            <stop stop-color="#4b6cb7" offset="0%"></stop>
+            <stop stop-color="#182848" offset="100%"></stop>
+          </linearGradient>
+          <linearGradient y2="100%" x2="0%" y1="0%" x1="100%" id="cube-light">
+            <stop stop-color="#a8edea" offset="0%"></stop>
+            <stop stop-color="#fed6e3" offset="100%"></stop>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+  
+  <!-- Contenido -->
+  <div class="content-overlay">
+    <div class="container-fluid">
+      <div class="welcome-section">
+        <div class="welcome-content">
+          <h1 class="welcome-title">
+            <i class="fas fa-cut"></i>
+            Bienvenido a <span class="brand-name">PAPUS BARBERSHOP</span>
+          </h1>
+          <p class="welcome-subtitle">
+            Tu experiencia de barbería profesional en Ciudad Quetzal
+          </p>
+        </div>
+        
+        <div class="menu-grid">
+          <div 
+            class="menu-card" 
+            *ngFor="let item of menuItems"
+            [ngClass]="'card-' + item.color">
+            <a 
+              *ngIf="!item.external"
+              [routerLink]="item.path"
+              class="menu-link">
+              <div class="menu-icon">
+                <i [class]="item.icon"></i>
+              </div>
+              <h3 class="menu-title">{{ item.label }}</h3>
+              <p class="menu-description">{{ item.description }}</p>
+              <div class="menu-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+            </a>
+            <a 
+              *ngIf="item.external"
+              [attr.href]="item.path"
+              [attr.target]="'_blank'"
+              [attr.rel]="'noopener noreferrer'"
+              class="menu-link">
+              <div class="menu-icon">
+                <i [class]="item.icon"></i>
+              </div>
+              <h3 class="menu-title">{{ item.label }}</h3>
+              <p class="menu-description">{{ item.description }}</p>
+              <div class="menu-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
