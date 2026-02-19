@@ -484,8 +484,3 @@
   border-color: #17a2b8;
 }
 
-/* Ocultar sección de correos de confirmación en Vista-Clientes */
-.correos-confirmacion-oculto {
-  display: none !important;
-}
-

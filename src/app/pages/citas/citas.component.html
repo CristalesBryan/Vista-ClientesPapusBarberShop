@@ -180,30 +180,6 @@
           </div>
         </div>
 
-        <!-- Correos de Confirmación - OCULTO en Vista-Clientes -->
-        <div class="row mb-3 correos-confirmacion-oculto">
-          <div class="col-md-12">
-            <label class="form-label">Correos para Confirmación *</label>
-            <div *ngFor="let correo of nuevaCita.correosConfirmacion; let i = index" class="mb-2">
-              <div class="input-group">
-                <input type="email" class="form-control" [(ngModel)]="nuevaCita.correosConfirmacion[i]" 
-                       [name]="'correo' + i" placeholder="correo@ejemplo.com">
-                <button type="button" class="btn btn-outline-danger" 
-                        (click)="eliminarCorreo(i)" 
-                        *ngIf="nuevaCita.correosConfirmacion.length > 1">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </div>
-            </div>
-            <button type="button" class="cssbuttons-io-button" (click)="agregarCorreo()">
-              <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" fill="currentColor"></path>
-              </svg>
-              <span>Agregar Correo</span>
-            </button>
-          </div>
-        </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -562,31 +538,6 @@
                   <label class="form-label">Comentarios</label>
                   <textarea class="form-control" rows="3" [(ngModel)]="citaEditando.comentarios" 
                             name="comentarios"></textarea>
-                </div>
-              </div>
-
-              <!-- Correos de Confirmación - OCULTO en Vista-Clientes -->
-              <div class="row mb-3 correos-confirmacion-oculto">
-                <div class="col-md-12">
-                  <label class="form-label">Correos para Confirmación *</label>
-                  <div *ngFor="let correo of citaEditando.correosConfirmacion; let i = index" class="mb-2">
-                    <div class="input-group">
-                      <input type="email" class="form-control" [(ngModel)]="citaEditando.correosConfirmacion[i]" 
-                             [name]="'correo' + i" placeholder="correo@ejemplo.com">
-                      <button type="button" class="btn btn-outline-danger" 
-                              (click)="eliminarCorreo(i)" 
-                              *ngIf="citaEditando.correosConfirmacion.length > 1">
-                        <i class="fas fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <button type="button" class="cssbuttons-io-button" (click)="agregarCorreo()">
-                    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0 0h24v24H0z" fill="none"></path>
-                      <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" fill="currentColor"></path>
-                    </svg>
-                    <span>Agregar Correo</span>
-                  </button>
                 </div>
               </div>
             </form>
