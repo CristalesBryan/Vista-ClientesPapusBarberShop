@@ -13,7 +13,7 @@
   width: 100%;
   min-height: 100vh;
   z-index: 0;
-  background-image: url('/assets/images/Inicio.jpeg');
+  background-image: url('https://papusbarbershop.s3.us-east-2.amazonaws.com/Inicio.jpeg');
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;

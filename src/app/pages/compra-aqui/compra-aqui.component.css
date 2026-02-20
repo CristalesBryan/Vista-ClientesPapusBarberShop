@@ -13,7 +13,7 @@
   width: 100%;
   min-height: 100vh;
   z-index: 0;
-  background-image: url('/assets/images/PestañaCliente.jpeg');
+  background-image: url('https://papusbarbershop.s3.us-east-2.amazonaws.com/Pesta%C3%B1aCliente.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
