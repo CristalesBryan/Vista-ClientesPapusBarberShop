@@ -274,10 +274,27 @@ export class CitasComponent implements OnInit {
     if (barberoId) {
       this.barberoSeleccionado = barberoId;
       this.nuevaCita.barberoId = barberoId;
+      this.asignarCorreoBarberoACorreosConfirmacion(barberoId);
     }
     
     this.cargarDisponibilidad();
     this.mostrarFormulario = true;
+  }
+
+  /**
+   * Asigna el correo del barbero a correosConfirmacion (para envío de confirmación).
+   * En Vista-Clientes no se muestra este campo; se usa automáticamente al seleccionar barbero.
+   */
+  private asignarCorreoBarberoACorreosConfirmacion(barberoId: number): void {
+    const barbero = this.barberos.find(b => b.id === barberoId);
+    if (!barbero?.correo || barbero.correo.trim() === '') return;
+    this.nuevaCita.correosConfirmacion = this.nuevaCita.correosConfirmacion
+      .filter(c => c && c.trim() !== '')
+      .filter(c => c !== barbero.correo);
+    this.nuevaCita.correosConfirmacion.unshift(barbero.correo.trim());
+    if (this.nuevaCita.correosConfirmacion.length === 1) {
+      this.nuevaCita.correosConfirmacion.push('');
+    }
   }
 
   convertirHoraA12h(hora24: string): string {
@@ -501,18 +518,7 @@ export class CitasComponent implements OnInit {
       this.tipoCorteSeleccionado = null;
     }
     
-    const barbero = this.barberos.find(b => b.id === barberoId);
-    if (barbero && barbero.correo && barbero.correo.trim() !== '') {
-      this.nuevaCita.correosConfirmacion = this.nuevaCita.correosConfirmacion
-        .filter(c => c && c.trim() !== '')
-        .filter(c => c !== barbero.correo);
-      
-      this.nuevaCita.correosConfirmacion.unshift(barbero.correo);
-      
-      if (this.nuevaCita.correosConfirmacion.length === 1) {
-        this.nuevaCita.correosConfirmacion.push('');
-      }
-    }
+    this.asignarCorreoBarberoACorreosConfirmacion(barberoId);
     
     if (this.fechaSeleccionada) {
       this.cargarDisponibilidad();
@@ -833,14 +839,21 @@ export class CitasComponent implements OnInit {
   }
 
   guardarCita(): void {
-    const correosValidos = this.nuevaCita.correosConfirmacion.filter(c => c.trim() !== '');
+    let correosValidos = this.nuevaCita.correosConfirmacion.filter(c => c && c.trim() !== '');
+    // En Vista-Clientes el correo del barbero se asigna automáticamente al seleccionarlo (no se muestra en la vista)
+    if (this.barberoSeleccionado > 0) {
+      const barbero = this.barberos.find(b => b.id === this.barberoSeleccionado);
+      if (barbero?.correo && barbero.correo.trim() !== '' && !correosValidos.includes(barbero.correo.trim())) {
+        correosValidos = [barbero.correo.trim(), ...correosValidos];
+      }
+    }
     if (correosValidos.length === 0) {
       this.mostrarNotificacion('Debe proporcionar al menos un correo para la confirmación', 'warning');
       return;
     }
 
-    if (!correosValidos.includes(this.nuevaCita.correoCliente)) {
-      correosValidos.push(this.nuevaCita.correoCliente);
+    if (this.nuevaCita.correoCliente?.trim() && !correosValidos.includes(this.nuevaCita.correoCliente.trim())) {
+      correosValidos.push(this.nuevaCita.correoCliente.trim());
     }
 
     if (this.tipoCorteSeleccionado && this.barberoSeleccionado > 0 && this.nuevaCita.hora) {
@@ -1202,6 +1215,14 @@ export class CitasComponent implements OnInit {
     if (!this.citaSeleccionada) return;
     
     this.editandoCita = true;
+    const barberoId = this.citaSeleccionada.barberoId;
+    const correosIniciales = this.citaSeleccionada.correoCliente ? [this.citaSeleccionada.correoCliente] : [''];
+    if (barberoId > 0) {
+      const barbero = this.barberos.find(b => b.id === barberoId);
+      if (barbero?.correo && barbero.correo.trim() !== '' && !correosIniciales.includes(barbero.correo.trim())) {
+        correosIniciales.unshift(barbero.correo.trim());
+      }
+    }
     this.citaEditando = {
       fecha: this.citaSeleccionada.fecha.split('T')[0],
       hora: this.citaSeleccionada.hora,
@@ -1211,7 +1232,7 @@ export class CitasComponent implements OnInit {
       correoCliente: this.citaSeleccionada.correoCliente,
       telefonoCliente: this.citaSeleccionada.telefonoCliente || '',
       comentarios: this.citaSeleccionada.comentarios || '',
-      correosConfirmacion: [this.citaSeleccionada.correoCliente]
+      correosConfirmacion: correosIniciales.length > 0 ? correosIniciales : ['']
     };
     
     this.horaSeleccionada12h = this.convertirHoraA12h(this.citaSeleccionada.hora);
@@ -1244,18 +1265,29 @@ export class CitasComponent implements OnInit {
   guardarEdicionCita(): void {
     if (!this.citaSeleccionada) return;
 
-    const correosValidos = this.citaEditando.correosConfirmacion.filter(c => c.trim() !== '');
+    let correosValidos = this.citaEditando.correosConfirmacion.filter(c => c && c.trim() !== '');
+    const barberoId = this.citaEditando.barberoId || 0;
+    if (barberoId > 0) {
+      const barbero = this.barberos.find(b => b.id === barberoId);
+      if (barbero?.correo && barbero.correo.trim() !== '' && !correosValidos.includes(barbero.correo.trim())) {
+        correosValidos = [barbero.correo.trim(), ...correosValidos];
+      }
+    }
     if (correosValidos.length === 0) {
       this.mostrarNotificacion('Debe proporcionar al menos un correo para la confirmación', 'warning');
       return;
+    }
+    if (this.citaEditando.correoCliente?.trim() && !correosValidos.includes(this.citaEditando.correoCliente.trim())) {
+      correosValidos.push(this.citaEditando.correoCliente.trim());
     }
 
     if (this.horaSeleccionada12h) {
       this.citaEditando.hora = this.convertir12hA24h(this.horaSeleccionada12h);
     }
 
+    const citaParaActualizar: CitaCreate = { ...this.citaEditando, correosConfirmacion: correosValidos };
     this.cargando = true;
-    this.citaService.update(this.citaSeleccionada.id, this.citaEditando).subscribe({
+    this.citaService.update(this.citaSeleccionada.id, citaParaActualizar).subscribe({
       next: () => {
         this.cargarCitas();
         this.mostrarNotificacion('Cita actualizada exitosamente', 'success');
