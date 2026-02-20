@@ -28,8 +28,12 @@ export class CitaService {
     return this.http.get<Cita[]>(`${this.apiUrl}/barbero/${barberoId}/fecha/${fecha}`);
   }
 
-  obtenerDisponibilidad(fecha: string): Observable<Disponibilidad[]> {
-    return this.http.get<Disponibilidad[]>(`${this.apiUrl}/disponibilidad/${fecha}`);
+  obtenerDisponibilidad(fecha: string, timezone?: string): Observable<Disponibilidad[]> {
+    let url = `${this.apiUrl}/disponibilidad/${fecha}`;
+    if (timezone != null && timezone !== '') {
+      url += `?timezone=${encodeURIComponent(timezone)}`;
+    }
+    return this.http.get<Disponibilidad[]>(url);
   }
 
   cancelarCita(id: number): Observable<void> {

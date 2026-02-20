@@ -88,6 +88,15 @@ export class CitasComponent implements OnInit {
   fechaSeleccionadaCalendario: Date = new Date();
   nombresDias: string[] = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
+  /** Zona horaria del usuario (ej. America/Guatemala) para validaciones en el backend. */
+  private getTimezoneUsuario(): string {
+    try {
+      return Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Guatemala';
+    } catch {
+      return 'America/Guatemala';
+    }
+  }
+
   constructor(
     private citaService: CitaService,
     private tipoCorteService: TipoCorteService,
@@ -372,7 +381,7 @@ export class CitasComponent implements OnInit {
     
     this.disponibilidades = [];
     
-    this.citaService.obtenerDisponibilidad(this.fechaSeleccionada).subscribe({
+    this.citaService.obtenerDisponibilidad(this.fechaSeleccionada, this.getTimezoneUsuario()).subscribe({
       next: (data) => {
         console.log('Disponibilidades cargadas:', data);
         
@@ -886,7 +895,8 @@ export class CitasComponent implements OnInit {
 
     const citaParaGuardar: CitaCreate = {
       ...this.nuevaCita,
-      correosConfirmacion: correosValidos
+      correosConfirmacion: correosValidos,
+      timezone: this.getTimezoneUsuario()
     };
 
     this.cargando = true;
@@ -1072,7 +1082,7 @@ export class CitasComponent implements OnInit {
   }
 
   cargarDisponibilidadParaCambiarHora(fecha: string, barberoId: number, tiempoMinutos: number): void {
-    this.citaService.obtenerDisponibilidad(fecha).subscribe({
+    this.citaService.obtenerDisponibilidad(fecha, this.getTimezoneUsuario()).subscribe({
       next: (disponibilidades) => {
         const disponibilidad = disponibilidades.find(d => d.barberoId === barberoId);
         if (disponibilidad) {

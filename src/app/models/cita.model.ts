@@ -26,6 +26,8 @@ export interface CitaCreate {
   telefonoCliente?: string;
   comentarios?: string;
   correosConfirmacion: string[];
+  /** Zona horaria del usuario (ej. America/Guatemala) para validar hora actual en su zona. */
+  timezone?: string;
 }
 
 export interface Disponibilidad {
