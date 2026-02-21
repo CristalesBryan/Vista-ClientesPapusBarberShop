@@ -28,6 +28,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/sitemap.xml",
+              "src/robots.txt",
               {
                 "glob": "**/*",
                 "input": "../Frontend/src/assets",
