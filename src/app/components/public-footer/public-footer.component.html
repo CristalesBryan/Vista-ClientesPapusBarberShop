@@ -3,12 +3,9 @@
     <div class="row footer-grid g-4 g-lg-5">
       <!-- Columna 1: marca + redes -->
       <div class="col-lg-4 footer-col footer-col--brand">
-        <img
-          src="assets/images/PestañaCliente.jpeg"
-          alt="Papus BarberShop"
-          class="footer-logo papus-brand-logo"
-          width="64"
-          height="64">
+        <span class="papus-logo-shell papus-logo-shell--footer" aria-hidden="true">
+          <img [src]="logoSrc" [alt]="logoAlt" class="footer-logo papus-brand-logo">
+        </span>
         <h3 class="footer-brand">Papus BarberShop</h3>
         <p class="footer-desc">
           Tu experiencia de barbería premium en Ciudad Quetzal. Cortes, estilo y productos exclusivos.

@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FragmentScrollService } from '../../services/fragment-scroll.service';
+import { PAPUS_LOGO_ALT, PAPUS_LOGO_SRC } from '../../shared/constants/papus-brand';
 
 interface NavLink {
   path: string;
@@ -19,6 +20,9 @@ interface NavLink {
 export class PublicNavbarComponent implements OnInit, OnDestroy {
   scrolled = false;
   mobileOpen = false;
+
+  readonly logoSrc = PAPUS_LOGO_SRC;
+  readonly logoAlt = PAPUS_LOGO_ALT;
 
   links: NavLink[] = [
     { path: '/', fragment: 'servicios', label: 'Servicios' },

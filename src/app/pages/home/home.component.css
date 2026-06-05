@@ -50,12 +50,7 @@
   z-index: 2;
 }
 
-.papus-hero-logo {
-  width: clamp(72px, 14vw, 110px);
-  height: clamp(72px, 14vw, 110px);
-  margin: 0 auto 1.25rem;
-  display: block;
-}
+/* Tamaño del logo hero en papus-theme (.papus-logo-shell--hero) */
 
 .papus-hero-line {
   width: 0;

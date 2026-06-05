@@ -1,6 +1,8 @@
 <header class="papus-public-nav" [class.scrolled]="scrolled">
   <a routerLink="/" class="nav-logo" (click)="closeMobile()">
-    <img src="assets/images/PestañaCliente.jpeg" alt="" class="nav-logo-img papus-brand-logo" width="36" height="36">
+    <span class="papus-logo-shell papus-logo-shell--nav" aria-hidden="true">
+      <img [src]="logoSrc" [alt]="logoAlt" class="nav-logo-img papus-brand-logo">
+    </span>
     <span class="nav-logo-text">PAPUS</span>
   </a>
 

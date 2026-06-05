@@ -10,7 +10,9 @@
     <div class="papus-hero-overlay"></div>
 
     <div class="papus-hero-content">
-      <img src="assets/images/PestañaCliente.jpeg" alt="Papus BarberShop" class="papus-hero-logo papus-brand-logo" #heroLogo>
+      <div class="papus-logo-shell papus-logo-shell--hero">
+        <img [src]="logoSrc" [alt]="logoAlt" class="papus-hero-logo papus-brand-logo" #heroLogo>
+      </div>
       <div class="papus-hero-line" #heroLine aria-hidden="true"></div>
       <h1 class="papus-hero-title papus-hero-title--brand" #heroTitle>PAPUS BARBERSHOP</h1>
       <p class="papus-hero-tagline" #heroSubtitle>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { GsapAnimationService } from '../../services/gsap-animation.service';
 import { FragmentScrollService } from '../../services/fragment-scroll.service';
+import { PAPUS_LOGO_ALT, PAPUS_LOGO_SRC } from '../../shared/constants/papus-brand';
 
 interface FooterQuickLink {
   label: string;
@@ -22,6 +23,8 @@ export class PublicFooterComponent implements AfterViewInit, OnDestroy {
   @ViewChild('footerRoot') footerRoot?: ElementRef<HTMLElement>;
 
   year = new Date().getFullYear();
+  readonly logoSrc = PAPUS_LOGO_SRC;
+  readonly logoAlt = PAPUS_LOGO_ALT;
 
   quickLinks: FooterQuickLink[] = [
     { label: 'Citas', route: '/citas' },
