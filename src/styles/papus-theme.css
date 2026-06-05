@@ -39,38 +39,31 @@
 .text-cream { color: var(--cream) !important; }
 .text-cream-muted { color: var(--cream-muted) !important; }
 
-/* Logo oficial Papus — visible sobre fondos oscuros */
+/* Logo PNG con fondo transparente */
 .papus-logo-shell {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 50% 45%, #1a1a1a 0%, #0a0a0a 100%);
-  border: 1px solid rgba(201, 168, 76, 0.35);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45), 0 0 20px rgba(201, 168, 76, 0.12);
-  isolation: isolate;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .papus-logo-shell--hero {
-  width: clamp(108px, 17vw, 148px);
-  height: clamp(108px, 17vw, 148px);
+  width: clamp(96px, 16vw, 136px);
+  height: clamp(96px, 16vw, 136px);
   margin: 0 auto 1.25rem;
-  padding: 0.65rem;
-  border-radius: 50%;
 }
 
 .papus-logo-shell--nav {
-  width: 42px;
-  height: 42px;
-  padding: 0.25rem;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
 }
 
 .papus-logo-shell--footer {
-  width: 72px;
-  height: 72px;
-  padding: 0.4rem;
-  border-radius: 14px;
+  width: 68px;
+  height: 68px;
   margin-bottom: 1rem;
 }
 
@@ -82,8 +75,19 @@
   border: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  mix-blend-mode: multiply;
-  filter: contrast(1.25) brightness(1.15) drop-shadow(0 2px 12px rgba(201, 168, 76, 0.3));
+  mix-blend-mode: normal;
+}
+
+/* Hero: fondo claro del watermark — logo negro natural */
+.papus-hero .papus-brand-logo {
+  filter: contrast(1.15) drop-shadow(0 4px 18px rgba(0, 0, 0, 0.35));
+}
+
+/* Navbar y footer: tema oscuro — logo dorado */
+.papus-public-nav .papus-brand-logo,
+.papus-footer .papus-brand-logo {
+  filter: brightness(0) saturate(100%) invert(72%) sepia(38%) saturate(480%)
+    hue-rotate(6deg) brightness(1.08) drop-shadow(0 2px 8px rgba(201, 168, 76, 0.35));
 }
 
 .papus-hero-logo {

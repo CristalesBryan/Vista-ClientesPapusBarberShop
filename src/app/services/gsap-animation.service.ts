@@ -66,20 +66,22 @@ export class GsapAnimationService {
     vars: gsap.TweenVars = {}
   ): void {
     if (this.reducedMotion) return;
-    const targets = scope.querySelectorAll(selector);
+    const targets = scope.querySelectorAll<HTMLElement>(selector);
     if (!targets.length) return;
-    gsap.from(targets, {
-      autoAlpha: 0,
-      y: 48,
-      duration: 0.9,
-      stagger: 0.12,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: targets[0],
-        start: 'top 85%',
-        toggleActions: 'play none none reverse'
-      },
-      ...vars
+
+    targets.forEach(target => {
+      gsap.from(target, {
+        autoAlpha: 0,
+        y: 48,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: target,
+          start: 'top 88%',
+          once: true
+        },
+        ...vars
+      });
     });
   }
 

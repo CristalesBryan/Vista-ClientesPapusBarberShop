@@ -165,7 +165,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.gsapService.scrollReveal(root, '.reveal-section');
       this.gsapService.scrollReveal(root, '.reveal-catalog-card');
       this.gsapService.scrollReveal(root, '.reveal-barber');
-      this.gsapService.scrollReveal(root, '.reservas-panel');
 
       const ubicacion = this.ubicacionSection?.nativeElement;
       if (ubicacion) {
