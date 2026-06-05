@@ -1,39 +1,79 @@
-<footer id="contacto" class="papus-footer papus-footer--luxury">
-  <div class="container text-center">
-    <img src="assets/images/PestañaCliente.jpeg" alt="Papus BarberShop" class="footer-logo" width="64" height="64">
-    <h3 class="footer-brand">Papus BarberShop</h3>
-    <div class="papus-footer-divider"></div>
+<footer class="papus-footer papus-footer--luxury" #footerRoot>
+  <div class="container">
+    <div class="row footer-grid g-4 g-lg-5">
+      <!-- Columna 1: marca + redes -->
+      <div class="col-lg-4 footer-col footer-col--brand">
+        <img
+          src="assets/images/PestañaCliente.jpeg"
+          alt="Papus BarberShop"
+          class="footer-logo papus-brand-logo"
+          width="64"
+          height="64">
+        <h3 class="footer-brand">Papus BarberShop</h3>
+        <p class="footer-desc">
+          Tu experiencia de barbería premium en Ciudad Quetzal. Cortes, estilo y productos exclusivos.
+        </p>
+        <div class="footer-social">
+          <a href="https://wa.me/50247979922" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="https://www.facebook.com/share/1XmXmG651q/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.tiktok.com/@papusbarbershopgt" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <i class="fab fa-tiktok"></i>
+          </a>
+        </div>
+      </div>
 
-    <div class="footer-social">
-      <a href="https://wa.me/50247979922" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-      </a>
-      <a href="https://www.facebook.com/share/1XmXmG651q/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-      <a href="https://www.tiktok.com/@papusbarbershopgt" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-        <i class="fab fa-tiktok"></i>
-      </a>
+      <!-- Columna 2: enlaces rápidos -->
+      <div class="col-lg-4 footer-col footer-col--links">
+        <h4 class="footer-col-title">Enlaces</h4>
+        <ul class="footer-quick-links">
+          <li *ngFor="let link of quickLinks">
+            <a
+              *ngIf="link.external"
+              class="footer-quick-link"
+              [href]="link.url"
+              target="_blank"
+              rel="noopener noreferrer">{{ link.label }}</a>
+            <a
+              *ngIf="!link.external"
+              class="footer-quick-link"
+              [routerLink]="link.route">{{ link.label }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: ubicación -->
+      <div class="col-lg-4 footer-col footer-col--ubicacion">
+        <h4 class="footer-col-title">Ubicación</h4>
+
+        <div class="footer-ubicacion-item">
+          <span class="footer-ubicacion-icon" aria-hidden="true"><i class="ti ti-map-pin"></i></span>
+          <p>
+            Lote 30 Manzana F, Colonia Villa Verde,<br>
+            Ciudad Quetzal, San Juan Sacatepéquez
+          </p>
+        </div>
+
+        <div class="footer-ubicacion-item">
+          <span class="footer-ubicacion-icon" aria-hidden="true"><i class="ti ti-clock"></i></span>
+          <div>
+            <p class="mb-1">Lun – Sáb: 8:00 AM – 7:00 PM</p>
+            <p class="mb-0">Dom: 9:00 AM – 3:00 PM</p>
+          </div>
+        </div>
+
+        <a href="/" class="footer-map-link" (click)="verEnMapa($event)">
+          Ver en el mapa <span class="footer-map-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
     </div>
 
-    <div class="footer-info">
-      <p><i class="fas fa-map-marker-alt me-2"></i>Ciudad Quetzal, Guatemala</p>
-      <p><i class="fas fa-clock me-2"></i>Lun – Sáb · 9:00 – 19:00</p>
-      <p><i class="fas fa-phone me-2"></i><a href="https://wa.me/50247979922" target="_blank" rel="noopener">+502 4797 9922</a></p>
+    <div class="footer-bottom">
+      <div class="papus-footer-divider footer-divider-thin" aria-hidden="true"></div>
+      <p class="footer-copy">&copy; {{ year }} Papus BarberShop. Todos los derechos reservados.</p>
     </div>
-
-    <div class="papus-footer-divider footer-divider-thin"></div>
-
-    <nav class="footer-nav" aria-label="Enlaces">
-      <a routerLink="/" fragment="servicios">Servicios</a>
-      <span class="footer-sep">·</span>
-      <a routerLink="/citas">Reservar</a>
-      <span class="footer-sep">·</span>
-      <a routerLink="/compra-aqui">Tienda</a>
-      <span class="footer-sep">·</span>
-      <a routerLink="/acerca-de-nosotros">Nosotros</a>
-    </nav>
-
-    <p class="footer-copy">&copy; {{ year }} Papus BarberShop. Todos los derechos reservados.</p>
   </div>
 </footer>

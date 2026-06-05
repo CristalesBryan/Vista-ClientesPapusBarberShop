@@ -126,6 +126,25 @@
   color: var(--cream);
 }
 
+.papus-internal-page .papus-cita-modal {
+  background: #111111 !important;
+  border: 0.5px solid #2a2200 !important;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.papus-internal-page .papus-cita-modal-body {
+  background: #111111;
+}
+
+.papus-internal-page .papus-cita-modal-footer {
+  background: #111111;
+  border-top: 1px solid #2a2200 !important;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
 .papus-modal-header-gold {
   background: var(--ink-elevated) !important;
   border-bottom: 1px solid var(--border-gold) !important;
@@ -220,10 +239,11 @@
   min-width: 100px;
   cursor: pointer;
   transition: background var(--transition-base);
+  background: #141414;
 }
 
-.papus-internal-page .schedule-day-header:hover {
-  background: var(--ink-hover, #2a2a2a);
+.papus-internal-page .schedule-day-header:hover:not(.past) {
+  background: #1a1a1a;
 }
 
 .papus-internal-page .schedule-day-header.today {
@@ -244,16 +264,17 @@
 
 .papus-internal-page .day-name {
   font-size: 0.65rem;
-  color: var(--cream-muted);
+  color: #888888;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   margin-bottom: 4px;
+  font-weight: 500;
 }
 
 .papus-internal-page .day-number {
   font-family: var(--font-display);
   font-size: 1.1rem;
-  color: var(--cream);
+  color: #cccccc;
 }
 
 .papus-internal-page .day-number.today-number {
@@ -300,8 +321,8 @@
   transition: background var(--transition-base), box-shadow var(--transition-base);
 }
 
-.papus-internal-page .schedule-day-cell:hover {
-  background: var(--ink-hover, #2a2a2a) !important;
+.papus-internal-page .schedule-day-cell:hover:not(.past) {
+  background: #1a1400 !important;
   box-shadow: inset 2px 0 0 var(--gold);
 }
 
@@ -320,13 +341,59 @@
   background: var(--ink-surface) !important;
 }
 
-.papus-internal-page .citas-container .text-muted {
-  color: var(--cream-muted) !important;
+.papus-internal-page .papus-agendar-hint {
+  color: var(--gold) !important;
   font-size: 0.8rem;
+  letter-spacing: 0.04em;
 }
 
-.papus-internal-page .citas-container .fa-plus-circle {
+.papus-internal-page .papus-agendar-hint i {
   color: var(--gold);
+}
+
+/* Formulario modal cita */
+.papus-internal-page .papus-form-label {
+  color: var(--gold) !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.papus-internal-page .papus-form-section-label {
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #2a2200;
+}
+
+.papus-internal-page .papus-form-input,
+.papus-internal-page .papus-cita-form .form-control,
+.papus-internal-page .papus-cita-form .form-select,
+.papus-internal-page .papus-cita-form textarea.form-control {
+  background: #1a1a1a !important;
+  border: 1px solid #333333 !important;
+  color: var(--cream) !important;
+  border-radius: var(--radius-sm);
+}
+
+.papus-internal-page .papus-form-input:focus,
+.papus-internal-page .papus-cita-form .form-control:focus,
+.papus-internal-page .papus-cita-form .form-select:focus,
+.papus-internal-page .papus-cita-form textarea.form-control:focus {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 3px var(--gold-glow) !important;
+  outline: none;
+}
+
+.papus-internal-page .papus-cita-form .form-select option {
+  background: #1a1a1a;
+  color: var(--cream);
 }
 
 /* Compra aquí */
@@ -382,34 +449,6 @@
   font-size: 1.35rem;
 }
 
-.papus-compra-page .btn-carrito {
-  background: transparent !important;
-  border: 1px solid var(--gold) !important;
-  color: var(--gold) !important;
-}
-
-.papus-compra-page .carrito-dropdown {
-  background: var(--ink-surface) !important;
-  border: 1px solid var(--border-gold) !important;
-  color: var(--cream);
-}
-
-.papus-compra-page .carrito-dropdown-header {
-  border-bottom: 1px solid var(--border-gold);
-  padding: 0.75rem 1rem;
-  color: var(--gold);
-  font-family: var(--font-display);
-}
-
-.papus-compra-page .carrito-item-dropdown {
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.papus-compra-page .item-subtotal-dropdown,
-.papus-compra-page .carrito-total-dropdown strong:last-child {
-  color: var(--gold) !important;
-}
-
 .papus-badge-count {
   background: rgba(201, 168, 76, 0.15) !important;
   color: var(--gold) !important;
@@ -451,141 +490,6 @@
 
 .papus-compra-page .producto-imagen:hover {
   transform: scale(1.04);
-}
-
-.papus-compra-page .carrito-dropdown-container {
-  position: relative;
-  z-index: 1000;
-}
-
-.papus-compra-page .carrito-dropdown {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  width: 380px;
-  max-height: 600px;
-  border-radius: var(--radius-md);
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-  z-index: 1001;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-}
-
-.papus-compra-page .carrito-dropdown.mostrar {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.papus-compra-page .carrito-dropdown-body {
-  flex: 1;
-  overflow-y: auto;
-  max-height: 400px;
-  padding: 1rem;
-}
-
-.papus-compra-page .carrito-vacio-dropdown {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1rem;
-  color: var(--cream-muted);
-  text-align: center;
-}
-
-.papus-compra-page .carrito-item-dropdown {
-  display: flex;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  background: var(--ink-elevated);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-subtle);
-}
-
-.papus-compra-page .item-imagen-dropdown {
-  width: 60px;
-  height: 60px;
-  flex-shrink: 0;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  background: var(--ink-deep);
-  border: 1px solid var(--border-subtle);
-}
-
-.papus-compra-page .item-imagen-dropdown img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.papus-compra-page .item-nombre-dropdown {
-  color: var(--cream);
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.papus-compra-page .btn-cantidad-dropdown {
-  width: 26px;
-  height: 26px;
-  border: 1px solid var(--border-gold);
-  background: transparent;
-  color: var(--gold);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 0.7rem;
-  padding: 0;
-}
-
-.papus-compra-page .btn-cantidad-dropdown:hover:not(:disabled) {
-  background: rgba(201, 168, 76, 0.12);
-}
-
-.papus-compra-page .btn-cantidad-dropdown:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.papus-compra-page .cantidad-dropdown {
-  color: var(--cream);
-  font-weight: 600;
-  min-width: 24px;
-  text-align: center;
-}
-
-.papus-compra-page .btn-eliminar-dropdown {
-  width: 26px;
-  height: 26px;
-  border: none;
-  background: rgba(198, 40, 40, 0.25);
-  color: #ef9a9a;
-  border-radius: 4px;
-  margin-left: auto;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.papus-compra-page .carrito-dropdown-footer {
-  border-top: 1px solid var(--border-gold);
-  padding: 1rem;
-  background: var(--ink-elevated);
-}
-
-.papus-compra-page .carrito-total-dropdown {
-  padding: 0.5rem 0;
 }
 
 .papus-compra-page .alert-info {
@@ -900,7 +804,6 @@
 
 /* Formularios en páginas públicas */
 body.papus-public .form-label,
-.papus-internal-page .form-label,
 .papus-compra-page .form-label,
 .papus-acerca-page .form-label,
 .papus-academia-page .form-label {
@@ -950,9 +853,4 @@ body.papus-public .form-text,
     justify-content: center;
   }
 
-  .papus-compra-page .carrito-dropdown {
-    width: calc(100vw - 40px);
-    right: -20px;
-    max-width: 380px;
-  }
 }

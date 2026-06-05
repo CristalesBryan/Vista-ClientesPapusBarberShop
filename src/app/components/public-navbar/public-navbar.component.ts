@@ -1,6 +1,13 @@
 import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { FragmentScrollService } from '../../services/fragment-scroll.service';
+
+interface NavLink {
+  path: string;
+  label: string;
+  fragment?: string;
+}
 
 @Component({
   selector: 'app-public-navbar',
@@ -13,12 +20,14 @@ export class PublicNavbarComponent implements OnInit, OnDestroy {
   scrolled = false;
   mobileOpen = false;
 
-  links = [
+  links: NavLink[] = [
     { path: '/', fragment: 'servicios', label: 'Servicios' },
     { path: '/', fragment: 'galeria', label: 'Galería' },
     { path: '/acerca-de-nosotros', label: 'Nosotros' },
-    { path: '/', fragment: 'contacto', label: 'Contacto' }
+    { path: '/', fragment: 'ubicacion', label: 'Contacto' }
   ];
+
+  constructor(private fragmentScroll: FragmentScrollService) {}
 
   @HostListener('window:scroll')
   onScroll(): void {
@@ -35,6 +44,15 @@ export class PublicNavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+
+  onFragmentNav(event: Event, link: NavLink): void {
+    if (!link.fragment) {
+      return;
+    }
+    event.preventDefault();
+    this.closeMobile();
+    this.fragmentScroll.goToFragment(link.path, link.fragment);
+  }
 
   toggleMobile(): void {
     this.mobileOpen = !this.mobileOpen;

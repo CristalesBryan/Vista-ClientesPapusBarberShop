@@ -359,4 +359,95 @@ export class GsapAnimationService {
   killAllScrollTriggers(): void {
     ScrollTrigger.getAll().forEach(st => st.kill());
   }
+
+  smoothScrollTo(element: HTMLElement, offset = 72): void {
+    const target = element.getBoundingClientRect().top + window.scrollY - offset;
+
+    if (this.reducedMotion) {
+      window.scrollTo(0, Math.max(0, target));
+      return;
+    }
+
+    const scrollObj = { y: window.scrollY };
+    gsap.to(scrollObj, {
+      y: Math.max(0, target),
+      duration: 1,
+      ease: 'power2.inOut',
+      onUpdate: () => window.scrollTo(0, scrollObj.y)
+    });
+  }
+
+  /** Footer: columnas con fade + slide up al entrar en viewport. */
+  revealFooter(footer: HTMLElement): void {
+    if (this.reducedMotion) return;
+
+    const cols = footer.querySelectorAll('.footer-col');
+    const bottom = footer.querySelector('.footer-bottom');
+
+    if (cols.length) {
+      gsap.from(cols, {
+        autoAlpha: 0,
+        y: 48,
+        duration: 0.85,
+        stagger: 0.16,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: footer,
+          start: 'top 88%',
+          once: true
+        }
+      });
+    }
+
+    if (bottom) {
+      gsap.from(bottom, {
+        autoAlpha: 0,
+        y: 24,
+        duration: 0.7,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: bottom,
+          start: 'top 95%',
+          once: true
+        }
+      });
+    }
+  }
+
+  /** Sección ubicación: cabecera fade+up, info desde izquierda, mapa desde derecha, stagger en items. */
+  revealUbicacionSection(section: HTMLElement): void {
+    if (this.reducedMotion) return;
+
+    const head = section.querySelector('.ubicacion-head');
+    const infoCol = section.querySelector('.ubicacion-info-col');
+    const mapCol = section.querySelector('.ubicacion-map-col');
+    const infoItems = section.querySelectorAll('.ubicacion-info-item');
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 82%',
+        once: true
+      }
+    });
+
+    if (head) {
+      tl.from(head, { autoAlpha: 0, y: 48, duration: 0.85, ease: 'power3.out' });
+    }
+    if (infoCol) {
+      tl.from(infoCol, { autoAlpha: 0, x: -72, duration: 0.9, ease: 'power3.out' }, '-=0.45');
+    }
+    if (infoItems.length) {
+      tl.from(infoItems, {
+        autoAlpha: 0,
+        x: -32,
+        duration: 0.65,
+        stagger: 0.14,
+        ease: 'power3.out'
+      }, '-=0.55');
+    }
+    if (mapCol) {
+      tl.from(mapCol, { autoAlpha: 0, x: 72, duration: 0.95, ease: 'power3.out' }, '-=0.75');
+    }
+  }
 }

@@ -10,7 +10,7 @@
     <div class="papus-hero-overlay"></div>
 
     <div class="papus-hero-content">
-      <img src="assets/images/PestañaCliente.jpeg" alt="Papus BarberShop" class="papus-hero-logo" #heroLogo>
+      <img src="assets/images/PestañaCliente.jpeg" alt="Papus BarberShop" class="papus-hero-logo papus-brand-logo" #heroLogo>
       <div class="papus-hero-line" #heroLine aria-hidden="true"></div>
       <h1 class="papus-hero-title papus-hero-title--brand" #heroTitle>PAPUS BARBERSHOP</h1>
       <p class="papus-hero-tagline" #heroSubtitle>
@@ -64,6 +64,69 @@
             <span class="access-card-arrow" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
           </a>
         </ng-container>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ UBICACIÓN ═══ -->
+  <section id="ubicacion" class="papus-section ubicacion-section" #ubicacionSection>
+    <div class="container">
+      <header class="ubicacion-head text-center">
+        <h2 class="ubicacion-title">Encuéntranos</h2>
+        <div class="ubicacion-title-line" aria-hidden="true"></div>
+        <p class="ubicacion-plus-code text-cream-muted">
+          Plus Code: MCXF+JC · Ciudad de Guatemala
+        </p>
+      </header>
+
+      <div class="row g-4 g-lg-5 align-items-stretch ubicacion-grid">
+        <div class="col-lg-5 ubicacion-info-col">
+          <div class="ubicacion-info-panel">
+            <div class="ubicacion-info-item">
+              <span class="ubicacion-icon" aria-hidden="true"><i class="ti ti-map-pin"></i></span>
+              <div>
+                <p class="ubicacion-info-label">Dirección</p>
+                <p class="ubicacion-info-text">
+                  Lote 30 Manzana F, Colonia Villa Verde,<br>
+                  Ciudad Quetzal, San Juan Sacatepéquez, Guatemala
+                </p>
+              </div>
+            </div>
+
+            <div class="ubicacion-info-item">
+              <span class="ubicacion-icon" aria-hidden="true"><i class="ti ti-clock"></i></span>
+              <div>
+                <p class="ubicacion-info-label">Horarios</p>
+                <p class="ubicacion-info-text">Lunes a Sábado: 8:00 AM – 7:00 PM</p>
+                <p class="ubicacion-info-text">Domingo: 9:00 AM – 3:00 PM</p>
+              </div>
+            </div>
+
+            <div class="ubicacion-info-item">
+              <span class="ubicacion-icon" aria-hidden="true"><i class="ti ti-phone"></i></span>
+              <div>
+                <p class="ubicacion-info-label">Teléfono</p>
+                <p class="ubicacion-info-text">
+                  <a href="https://wa.me/50247979922" target="_blank" rel="noopener">+502 4797 9922</a>
+                </p>
+              </div>
+            </div>
+
+            <a
+              class="btn-papus-outline-gold ubicacion-btn ubicacion-info-item"
+              href="https://maps.google.com/?q=MCXF+QFG+Ciudad+de+Guatemala"
+              target="_blank"
+              rel="noopener noreferrer">
+              <i class="ti ti-navigation me-2" aria-hidden="true"></i>Cómo llegar
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-7 ubicacion-map-col">
+          <div class="ubicacion-map-panel">
+            <app-map-wrapper></app-map-wrapper>
+          </div>
+        </div>
       </div>
     </div>
   </section>

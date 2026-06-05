@@ -6,16 +6,12 @@ import { RouterLink } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../models/producto.model';
 import { environment } from '../../../environments/environment';
-
-interface ItemCarrito {
-  producto: Producto;
-  cantidad: number;
-}
+import { PapusCarritoComponent, CarritoItem } from '../../components/papus-carrito/papus-carrito.component';
 
 @Component({
   selector: 'app-compra-aqui',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, PapusCarritoComponent],
   templateUrl: './compra-aqui.component.html',
   styleUrls: ['./compra-aqui.component.css']
 })
@@ -33,7 +29,7 @@ export class CompraAquiComponent implements OnInit, AfterViewInit, OnDestroy {
   productoModal: Producto | null = null;
   
   // Variables para el carrito
-  carrito: ItemCarrito[] = [];
+  carrito: CarritoItem[] = [];
   mostrarCarrito = false;
   
   // Variables para el modal de confirmación
@@ -43,6 +39,8 @@ export class CompraAquiComponent implements OnInit, AfterViewInit, OnDestroy {
   confirmacionAccion: (() => void) | null = null;
   confirmacionTipo: 'success' | 'warning' | 'danger' | 'info' = 'warning';
   
+  readonly resolverImagen = (producto: Producto): string => this.getProductoImagen(producto);
+
   constructor(
     private productoService: ProductoService,
     private cdr: ChangeDetectorRef,
@@ -85,9 +83,8 @@ export class CompraAquiComponent implements OnInit, AfterViewInit, OnDestroy {
     // Cerrar el carrito al hacer clic fuera de él
     document.addEventListener('click', (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      if (this.mostrarCarrito && 
-          !target.closest('.carrito-dropdown-container') && 
-          !target.closest('.carrito-dropdown')) {
+      if (this.mostrarCarrito &&
+          !target.closest('.papus-cart-root')) {
         this.cerrarCarrito();
       }
     });
@@ -342,6 +339,16 @@ export class CompraAquiComponent implements OnInit, AfterViewInit, OnDestroy {
 
   eliminarDelCarrito(productoId: number): void {
     this.carrito = this.carrito.filter(item => item.producto.id !== productoId);
+  }
+
+  onCantidadCarritoChange(event: { productoId: number; cantidad: number }): void {
+    this.actualizarCantidad(event.productoId, event.cantidad);
+  }
+
+  scrollAProductos(): void {
+    this.cerrarCarrito();
+    const grid = this.pageRoot?.nativeElement.querySelector('.papus-compra-grid');
+    grid?.scrollIntoView({ behavior: this.gsapService.prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
   }
 
   actualizarCantidad(productoId: number, nuevaCantidad: number): void {

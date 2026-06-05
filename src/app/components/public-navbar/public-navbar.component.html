@@ -1,6 +1,6 @@
 <header class="papus-public-nav" [class.scrolled]="scrolled">
   <a routerLink="/" class="nav-logo" (click)="closeMobile()">
-    <img src="assets/images/PestañaCliente.jpeg" alt="" class="nav-logo-img" width="36" height="36">
+    <img src="assets/images/PestañaCliente.jpeg" alt="" class="nav-logo-img papus-brand-logo" width="36" height="36">
     <span class="nav-logo-text">PAPUS</span>
   </a>
 
@@ -12,11 +12,13 @@
            [routerLink]="link.path"
            [fragment]="link.fragment"
            routerLinkActive="active"
-           [routerLinkActiveOptions]="{ exact: link.path === '/' }">{{ link.label }}</a>
+           [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+           (click)="onFragmentNav($event, link)">{{ link.label }}</a>
         <a *ngIf="!link.fragment"
            class="nav-link"
            [routerLink]="link.path"
-           routerLinkActive="active">{{ link.label }}</a>
+           routerLinkActive="active"
+           (click)="closeMobile()">{{ link.label }}</a>
       </li>
     </ul>
   </nav>
@@ -33,7 +35,7 @@
      class="nav-mobile-link"
      [routerLink]="link.path"
      [fragment]="link.fragment"
-     (click)="closeMobile()">{{ link.label }}</a>
+     (click)="link.fragment ? onFragmentNav($event, link) : closeMobile()">{{ link.label }}</a>
   <a routerLink="/citas" class="btn-papus-filled w-100 mt-3" (click)="closeMobile()">Reservar</a>
 </div>
 

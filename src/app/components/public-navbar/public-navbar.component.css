@@ -8,9 +8,6 @@
 .nav-logo-img {
   width: 36px;
   height: 36px;
-  object-fit: cover;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-gold);
 }
 
 .nav-logo-text {

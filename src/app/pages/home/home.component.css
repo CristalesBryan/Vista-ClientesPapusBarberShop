@@ -53,11 +53,8 @@
 .papus-hero-logo {
   width: clamp(72px, 14vw, 110px);
   height: clamp(72px, 14vw, 110px);
-  object-fit: contain;
-  border-radius: var(--radius-sm);
   margin: 0 auto 1.25rem;
   display: block;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .papus-hero-line {
@@ -315,6 +312,122 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+
+/* ── Ubicación / mapa ── */
+.ubicacion-section {
+  background: #0a0a0a;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.ubicacion-head {
+  margin-bottom: 3rem;
+}
+
+.ubicacion-title {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  color: var(--gold);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-bottom: 1rem;
+}
+
+.ubicacion-title-line {
+  width: 72px;
+  height: 2px;
+  margin: 0 auto 1.25rem;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.ubicacion-plus-code {
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  margin: 0;
+}
+
+.ubicacion-info-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  height: 100%;
+  padding: 2rem 1.75rem;
+}
+
+.ubicacion-info-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.ubicacion-info-item.ubicacion-btn {
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  width: 100%;
+  text-decoration: none;
+}
+
+.ubicacion-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--gold);
+  font-size: 1.35rem;
+}
+
+.ubicacion-info-label {
+  color: var(--gold);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0 0 0.35rem;
+  font-weight: 600;
+}
+
+.ubicacion-info-text {
+  color: var(--cream-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0 0 0.25rem;
+}
+
+.ubicacion-info-text a {
+  color: var(--cream);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.ubicacion-info-text a:hover {
+  color: var(--gold);
+}
+
+.ubicacion-map-panel {
+  height: 400px;
+  border: 1px solid #2a2200;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--ink-elevated);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 991.98px) {
+  .ubicacion-section {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .ubicacion-map-col {
+    order: 2;
+  }
+
+  .ubicacion-info-col {
+    order: 1;
+  }
 }
 
 @media (max-width: 992px) {

@@ -16,6 +16,7 @@ import { BarberoService } from '../../services/barbero.service';
 import { TipoCorteAPI } from '../../models/tipo-corte-api.model';
 import { Barbero } from '../../models/barbero.model';
 import { GsapAnimationService } from '../../services/gsap-animation.service';
+import { MapWrapperComponent } from '../../shared/components/map/map-wrapper.component';
 
 interface AccessCard {
   title: string;
@@ -29,7 +30,7 @@ interface AccessCard {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, MapWrapperComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -47,6 +48,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('ctaPrimary') ctaPrimary?: ElementRef<HTMLAnchorElement>;
   @ViewChild('ctaSecondary') ctaSecondary?: ElementRef<HTMLAnchorElement>;
   @ViewChild('reservasBtn') reservasBtn?: ElementRef<HTMLButtonElement>;
+  @ViewChild('ubicacionSection') ubicacionSection?: ElementRef<HTMLElement>;
   @ViewChildren('accessCard') accessCardsRef?: QueryList<ElementRef<HTMLAnchorElement>>;
 
   servicios: TipoCorteAPI[] = [];
@@ -159,6 +161,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.gsapService.scrollReveal(root, '.reveal-catalog-card');
       this.gsapService.scrollReveal(root, '.reveal-barber');
       this.gsapService.scrollReveal(root, '.reservas-panel');
+
+      const ubicacion = this.ubicacionSection?.nativeElement;
+      if (ubicacion) {
+        this.gsapService.revealUbicacionSection(ubicacion);
+      }
     });
 
     const primary = this.ctaPrimary?.nativeElement;

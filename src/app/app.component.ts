@@ -48,8 +48,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gsap.initSmoothScroll();
     this.navSub = this.router.events
       .pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe(() => {
-        window.scrollTo({ top: 0, behavior: this.gsap.prefersReducedMotion ? 'auto' : 'smooth' });
+      .subscribe((e) => {
+        const nav = e as NavigationEnd;
+        const hasFragment = nav.urlAfterRedirects.includes('#');
+        if (!hasFragment) {
+          window.scrollTo({ top: 0, behavior: this.gsap.prefersReducedMotion ? 'auto' : 'smooth' });
+        }
         const host = this.routeHost?.nativeElement;
         if (host) {
           this.gsap.pageTransition(host, 'in');

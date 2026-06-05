@@ -8,74 +8,21 @@
         <i class="fas fa-sync-alt me-1"></i> Recargar
       </button>
       <a routerLink="/" class="btn-papus-ghost btn-sm"><i class="fas fa-home me-1"></i> Menú</a>
-      <div class="carrito-dropdown-container">
-        <button type="button" class="btn btn-carrito btn-papus-outline-gold" (click)="toggleCarrito()">
-          <i class="fas fa-shopping-cart me-2"></i>
-          Carrito
-          <span class="badge papus-badge-count ms-2" *ngIf="getCantidadTotalItems() > 0">
-            {{ getCantidadTotalItems() }}
-          </span>
-        </button>
-      <div class="carrito-dropdown" [class.mostrar]="mostrarCarrito" *ngIf="mostrarCarrito">
-        <div class="carrito-dropdown-header">
-          <h6 class="mb-0">
-            <i class="fas fa-shopping-cart me-2"></i>
-            Carrito de Compras
-          </h6>
-        </div>
-        
-        <div class="carrito-dropdown-body">
-          <div *ngIf="carrito.length === 0" class="carrito-vacio-dropdown">
-            <i class="fas fa-shopping-cart fa-2x mb-2"></i>
-            <p class="mb-0">Tu carrito está vacío</p>
-          </div>
-          
-          <div *ngIf="carrito.length > 0" class="carrito-items-dropdown">
-            <div class="carrito-item-dropdown" *ngFor="let item of carrito">
-              <div class="item-imagen-dropdown">
-                <img [src]="getProductoImagen(item.producto)" 
-                     [alt]="item.producto.nombre"
-                     (error)="onImageError($event, item.producto)">
-              </div>
-              <div class="item-info-dropdown">
-                <h6 class="item-nombre-dropdown">{{ item.producto.nombre }}</h6>
-                <div class="item-controls-dropdown">
-                  <button class="btn-cantidad-dropdown" (click)="actualizarCantidad(item.producto.id, item.cantidad - 1); $event.stopPropagation()" type="button">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <span class="cantidad-dropdown">{{ item.cantidad }}</span>
-                  <button class="btn-cantidad-dropdown" 
-                          (click)="actualizarCantidad(item.producto.id, item.cantidad + 1); $event.stopPropagation()" 
-                          [disabled]="item.cantidad >= item.producto.stock"
-                          type="button">
-                    <i class="fas fa-plus"></i>
-                  </button>
-                  <button class="btn-eliminar-dropdown" (click)="eliminarDelCarrito(item.producto.id); $event.stopPropagation()" type="button" title="Eliminar">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </div>
-                <p class="item-subtotal-dropdown mb-0">Q{{ (item.producto.precioVenta * item.cantidad) | number:'1.2-2' }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="carrito-dropdown-footer" *ngIf="carrito.length > 0">
-          <div class="carrito-total-dropdown">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <strong>Total:</strong>
-              <strong class="producto-precio">Q{{ getTotalCarrito() | number:'1.2-2' }}</strong>
-            </div>
-            <button type="button" class="btn-papus-ghost btn-sm w-100 mb-2" (click)="vaciarCarrito(); $event.stopPropagation()">
-              <i class="fas fa-trash me-2"></i>Vaciar
-            </button>
-            <button type="button" class="btn-papus-filled btn-sm w-100" (click)="finalizarCompra(); $event.stopPropagation()">
-              <i class="fas fa-check me-2"></i>Finalizar
-            </button>
-          </div>
-        </div>
-      </div>
-      </div>
+      <app-papus-carrito
+        [items]="carrito"
+        [visible]="mostrarCarrito"
+        [cantidadTotal]="getCantidadTotalItems()"
+        [total]="getTotalCarrito()"
+        [imagenResolver]="resolverImagen"
+        (toggleCarrito)="toggleCarrito()"
+        (cerrarCarrito)="cerrarCarrito()"
+        (vaciarCarrito)="vaciarCarrito()"
+        (finalizarCompra)="finalizarCompra()"
+        (eliminarItem)="eliminarDelCarrito($event)"
+        (cantidadChange)="onCantidadCarritoChange($event)"
+        (imageError)="onImageError($event.event, $event.producto)"
+        (verProductos)="scrollAProductos()">
+      </app-papus-carrito>
     </div>
   </header>
 
@@ -129,7 +76,7 @@
     </div>
 
     <!-- Grid de productos -->
-    <div class="row g-4" *ngIf="productosFiltrados.length > 0">
+    <div class="row g-4 papus-compra-grid" *ngIf="productosFiltrados.length > 0">
       <div class="col-md-4 col-lg-3" *ngFor="let producto of productosFiltrados">
         <div class="papus-product-card reveal-product-card h-100">
           <!-- Imagen del producto -->

@@ -27,7 +27,7 @@
         </div>
         <div class="col-md-6 text-end">
           <div class="d-flex gap-2 justify-content-end">
-            <a routerLink="/" class="btn-papus-ghost btn-sm"><i class="fas fa-home me-1"></i> Menú</a>
+            <a routerLink="/" class="btn-papus-outline-gold btn-sm"><i class="fas fa-home me-1"></i> Menú</a>
             <button type="button" class="btn-papus-filled btn-sm" (click)="toggleFormulario()">
               <i class="fas fa-plus me-1"></i> Nueva cita
             </button>
@@ -41,7 +41,7 @@
   <div class="modal fade" [class.show]="mostrarFormulario" [style.display]="mostrarFormulario ? 'block' : 'none'" 
        tabindex="-1" role="dialog" [attr.aria-hidden]="!mostrarFormulario">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content">
+      <div class="modal-content papus-cita-modal">
         <div class="modal-header papus-modal-header-gold">
           <h5 class="modal-title">
             <i class="fas fa-calendar-check me-2"></i>
@@ -49,13 +49,13 @@
           </h5>
           <button type="button" class="btn-close" (click)="toggleFormulario()" aria-label="Cerrar"></button>
         </div>
-        <div class="modal-body">
-          <form (ngSubmit)="guardarCita()" id="formCita">
+        <div class="modal-body papus-cita-modal-body">
+          <form (ngSubmit)="guardarCita()" id="formCita" class="papus-cita-form">
         <!-- Selección de Tipo de Corte -->
         <div class="row mb-3">
           <div class="col-md-6">
-            <label class="form-label">Tipo de Corte *</label>
-            <select class="form-select" [(ngModel)]="nuevaCita.tipoCorteId" 
+            <label class="form-label papus-form-label">Tipo de corte *</label>
+            <select class="form-select papus-form-input" [(ngModel)]="nuevaCita.tipoCorteId" 
                     name="tipoCorteId" required (change)="onTipoCorteSeleccionado()"
                     [disabled]="getTiposCorteDisponibles().length === 0">
               <option [ngValue]="0">
@@ -95,8 +95,8 @@
         <!-- Fecha -->
         <div class="row mb-3">
           <div class="col-md-4">
-            <label class="form-label">Fecha *</label>
-            <input type="date" class="form-control" [(ngModel)]="fechaSeleccionada" 
+            <label class="form-label papus-form-label">Fecha *</label>
+            <input type="date" class="form-control papus-form-input" [(ngModel)]="fechaSeleccionada" 
                    name="fecha" required [min]="getFechaMinima()" (change)="onFechaCambiada()">
           </div>
         </div>
@@ -104,8 +104,8 @@
         <!-- Selección de Barbero y Hora -->
         <div class="row mb-3" *ngIf="fechaSeleccionada && tipoCorteSeleccionado">
           <div class="col-md-6">
-            <label class="form-label">Barbero *</label>
-            <select class="form-select" [(ngModel)]="barberoSeleccionado" 
+            <label class="form-label papus-form-label">Barbero *</label>
+            <select class="form-select papus-form-input" [(ngModel)]="barberoSeleccionado" 
                     name="barbero" required (change)="onBarberoSeleccionado()"
                     [disabled]="getBarberosDisponibles().length === 0 || tieneBarberoAsignado()">
               <option [ngValue]="0">
@@ -127,8 +127,8 @@
             </small>
           </div>
           <div class="col-md-6" *ngIf="barberoSeleccionado > 0">
-            <label class="form-label">Hora Disponible *</label>
-            <select class="form-select" [(ngModel)]="horaSeleccionada12h" 
+            <label class="form-label papus-form-label">Hora disponible *</label>
+            <select class="form-select papus-form-input" [(ngModel)]="horaSeleccionada12h" 
                     name="hora" required (change)="onHoraSeleccionada()"
                     [disabled]="horasDisponiblesBarbero.length === 0">
               <option value="">
@@ -145,43 +145,44 @@
         </div>
 
         <!-- Información del Cliente -->
+        <p class="papus-form-section-label">Cliente *</p>
         <div class="row mb-3">
           <div class="col-md-6">
-            <label class="form-label">Nombre del Cliente *</label>
-            <input type="text" class="form-control" [(ngModel)]="nuevaCita.nombreCliente" 
+            <label class="form-label papus-form-label">Nombre *</label>
+            <input type="text" class="form-control papus-form-input" [(ngModel)]="nuevaCita.nombreCliente" 
                    name="nombreCliente" required>
           </div>
           <div class="col-md-6">
-            <label class="form-label">Correo del Cliente *</label>
-            <input type="email" class="form-control" [(ngModel)]="nuevaCita.correoCliente" 
+            <label class="form-label papus-form-label">Correo *</label>
+            <input type="email" class="form-control papus-form-input" [(ngModel)]="nuevaCita.correoCliente" 
                    name="correoCliente" required>
           </div>
         </div>
 
         <div class="row mb-3">
           <div class="col-md-6">
-            <label class="form-label">Teléfono del Cliente</label>
-            <input type="text" class="form-control" [(ngModel)]="nuevaCita.telefonoCliente" 
+            <label class="form-label papus-form-label">Teléfono</label>
+            <input type="text" class="form-control papus-form-input" [(ngModel)]="nuevaCita.telefonoCliente" 
                    name="telefonoCliente">
           </div>
         </div>
 
         <div class="row mb-3">
           <div class="col-md-12">
-            <label class="form-label">Comentarios</label>
-            <textarea class="form-control" rows="3" [(ngModel)]="nuevaCita.comentarios" 
+            <label class="form-label papus-form-label">Comentarios</label>
+            <textarea class="form-control papus-form-input" rows="3" [(ngModel)]="nuevaCita.comentarios" 
                       name="comentarios"></textarea>
           </div>
         </div>
 
           </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn-papus-ghost btn-sm" (click)="toggleFormulario()">
+        <div class="modal-footer papus-cita-modal-footer">
+          <button type="button" class="btn-papus-cancel btn-sm" (click)="toggleFormulario()">
             <i class="fas fa-times me-1"></i> Cancelar
           </button>
           <button type="submit" class="btn-papus-filled btn-sm" form="formCita" [disabled]="cargando">
-            <i class="fas fa-save me-1"></i> Guardar cita
+            <i class="fas fa-check me-1"></i> Guardar cita
           </button>
         </div>
       </div>
@@ -236,8 +237,8 @@
               <div class="citas-container">
                 <!-- Las citas no se muestran en la vista de clientes -->
                 <!-- Los clientes pueden hacer clic en cualquier celda para crear una nueva cita -->
-                <div class="text-center text-muted py-2" style="font-size: 0.85rem;">
-                  <i class="fas fa-plus-circle"></i> Click para agendar
+                <div class="text-center papus-agendar-hint py-2">
+                  <i class="fas fa-plus me-1"></i> Click para agendar
                 </div>
               </div>
             </div>

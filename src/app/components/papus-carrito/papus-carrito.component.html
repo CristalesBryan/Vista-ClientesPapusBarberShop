@@ -1,0 +1,129 @@
+<div class="papus-cart-root">
+  <button
+    type="button"
+    class="papus-cart-trigger btn-papus-outline-gold"
+    (click)="onToggle($event)"
+    aria-label="Abrir carrito de compras"
+    [attr.aria-expanded]="visible">
+    <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+    <span>Carrito</span>
+    <span class="papus-cart-trigger-badge" *ngIf="cantidadTotal > 0">{{ cantidadTotal }}</span>
+  </button>
+
+  <div
+    #cartPanel
+    class="papus-cart-panel"
+    [class.papus-cart-panel--open]="visible"
+    *ngIf="visible"
+    role="dialog"
+    aria-label="Carrito de compras"
+    (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <header class="papus-cart-header">
+      <div class="papus-cart-header-title">
+        <i class="fas fa-shopping-cart papus-cart-header-icon" aria-hidden="true"></i>
+        <h2 class="papus-cart-header-text">Carrito de Compras</h2>
+        <span class="papus-cart-header-badge" *ngIf="cantidadTotal > 0">{{ cantidadTotal }}</span>
+      </div>
+      <div class="papus-cart-header-line" aria-hidden="true"></div>
+    </header>
+
+    <!-- Body -->
+    <div class="papus-cart-body">
+      <!-- Empty state -->
+      <div class="papus-cart-empty" *ngIf="items.length === 0">
+        <i class="fas fa-shopping-cart papus-cart-empty-icon" aria-hidden="true"></i>
+        <p class="papus-cart-empty-title">Tu carrito está vacío</p>
+        <p class="papus-cart-empty-sub">Explora nuestros productos exclusivos y arma tu pedido.</p>
+        <button type="button" class="btn-papus-outline-gold btn-sm" (click)="onVerProductos()">
+          Ver productos
+        </button>
+      </div>
+
+      <!-- Items -->
+      <ul class="papus-cart-items" *ngIf="items.length > 0">
+        <li
+          class="papus-cart-item"
+          *ngFor="let item of items; trackBy: trackByProductoId"
+          [attr.data-cart-item]="item.producto.id">
+          <div class="papus-cart-item-image">
+            <img
+              [src]="imagenResolver(item.producto)"
+              [alt]="item.producto.nombre"
+              (error)="onImageError($event, item.producto)"
+              loading="lazy">
+          </div>
+
+          <div class="papus-cart-item-content">
+            <div class="papus-cart-item-top">
+              <h3 class="papus-cart-item-name">{{ item.producto.nombre }}</h3>
+              <button
+                type="button"
+                class="papus-cart-item-remove"
+                (click)="onEliminar(item.producto.id, $event)"
+                title="Eliminar producto"
+                [attr.aria-label]="'Eliminar ' + item.producto.nombre">
+                <i class="fas fa-trash-alt" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <p class="papus-cart-item-price">
+              Q{{ getSubtotal(item) | number:'1.2-2' }}
+            </p>
+
+            <div class="papus-cart-item-controls">
+              <button
+                type="button"
+                class="papus-cart-qty-btn"
+                (click)="onCantidadMinus(item, $event)"
+                aria-label="Disminuir cantidad">
+                <i class="fas fa-minus" aria-hidden="true"></i>
+              </button>
+              <span class="papus-cart-qty-value" [attr.data-cart-qty]="item.producto.id">
+                {{ item.cantidad }}
+              </span>
+              <button
+                type="button"
+                class="papus-cart-qty-btn"
+                (click)="onCantidadPlus(item, $event)"
+                [disabled]="item.cantidad >= item.producto.stock"
+                aria-label="Aumentar cantidad">
+                <i class="fas fa-plus" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Footer / Total -->
+    <footer class="papus-cart-footer" *ngIf="items.length > 0">
+      <div class="papus-cart-totals">
+        <div class="papus-cart-subtotal-row">
+          <span class="papus-cart-label-muted">Subtotal</span>
+          <span class="papus-cart-value-light">Q{{ total | number:'1.2-2' }}</span>
+        </div>
+        <div class="papus-cart-total-row">
+          <span class="papus-cart-total-label">Total</span>
+          <span class="papus-cart-total-value">Q{{ displayedTotal | number:'1.2-2' }}</span>
+        </div>
+      </div>
+
+      <div class="papus-cart-actions">
+        <button type="button" class="papus-cart-clear-btn" (click)="onVaciar($event)">
+          <i class="fas fa-trash-alt" aria-hidden="true"></i>
+          Vaciar carrito
+        </button>
+        <button
+          #checkoutBtn
+          type="button"
+          class="papus-cart-checkout-btn"
+          (click)="onFinalizar($event)">
+          <span class="papus-cart-checkout-label">Finalizar compra</span>
+          <i class="fas fa-arrow-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    </footer>
+  </div>
+</div>
