@@ -1,58 +1,178 @@
-<div class="home-container">
-  <!-- Fondo con imagen -->
-  <div class="background-container"></div>
-  
-  <!-- Contenido -->
-  <div class="content-overlay">
-    <div class="container-fluid">
-      <div class="welcome-section">
-        <div class="welcome-content">
-          <h1 class="welcome-title">
-            <i class="fas fa-cut"></i>
-            Bienvenido a <span class="brand-name">PAPUS BARBERSHOP</span>
-          </h1>
-          <p class="welcome-subtitle">
-            Tu experiencia de barbería profesional en Ciudad Quetzal
-          </p>
+<div class="papus-public landing-page" #landingRoot>
+  <!-- Overlay de carga -->
+  <div class="page-load-overlay" #loadOverlay aria-hidden="true"></div>
+
+  <!-- ═══ HERO ═══ -->
+  <section id="inicio" class="papus-hero papus-hero--image" #heroSection>
+    <div class="papus-hero-media" #heroBg>
+      <img src="assets/images/Inicio.jpeg" alt="" class="papus-hero-img" loading="eager" fetchpriority="high">
+    </div>
+    <div class="papus-hero-overlay"></div>
+
+    <div class="papus-hero-content">
+      <img src="assets/images/PestañaCliente.jpeg" alt="Papus BarberShop" class="papus-hero-logo" #heroLogo>
+      <div class="papus-hero-line" #heroLine aria-hidden="true"></div>
+      <h1 class="papus-hero-title papus-hero-title--brand" #heroTitle>PAPUS BARBERSHOP</h1>
+      <p class="papus-hero-tagline" #heroSubtitle>
+        Tu experiencia de barbería profesional en Ciudad Quetzal
+      </p>
+      <div class="papus-hero-actions" #heroCtas>
+        <a #ctaPrimary routerLink="/citas" class="btn-papus-filled papus-shimmer-btn">Agendar Cita</a>
+        <a #ctaSecondary routerLink="/" fragment="servicios" class="btn-papus-outline-gold">Ver Servicios</a>
+      </div>
+    </div>
+
+    <a href="#servicios" class="papus-scroll-indicator" #scrollHint aria-label="Desplazarse hacia servicios">
+      <span class="scroll-label">Explorar</span>
+      <i class="fas fa-chevron-down scroll-chevron"></i>
+    </a>
+  </section>
+
+  <!-- ═══ ACCESOS PREMIUM (6 cards) ═══ -->
+  <section id="servicios" class="papus-access-section">
+    <div class="container">
+      <header class="papus-section-head reveal-section">
+        <div class="papus-section-line" aria-hidden="true"></div>
+        <h2 class="papus-section-title">Nuestros Servicios</h2>
+        <p class="papus-section-subtitle">
+          Todo lo que Papus BarberShop ofrece, a un clic de distancia.
+        </p>
+      </header>
+
+      <div class="papus-access-grid">
+        <ng-container *ngFor="let card of accessCards; trackBy: trackAccessCard">
+          <a *ngIf="card.external"
+             class="papus-access-card reveal-access-card"
+             #accessCard
+             [href]="card.url"
+             target="_blank"
+             rel="noopener noreferrer">
+            <div class="access-card-accent"></div>
+            <i [class]="card.icon + ' access-card-icon'"></i>
+            <h3 class="access-card-title">{{ card.title }}</h3>
+            <p class="access-card-desc">{{ card.description }}</p>
+            <span class="access-card-arrow" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a *ngIf="!card.external"
+             class="papus-access-card reveal-access-card"
+             #accessCard
+             [routerLink]="card.route">
+            <div class="access-card-accent"></div>
+            <i [class]="card.icon + ' access-card-icon'"></i>
+            <h3 class="access-card-title">{{ card.title }}</h3>
+            <p class="access-card-desc">{{ card.description }}</p>
+            <span class="access-card-arrow" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
+          </a>
+        </ng-container>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ESTADÍSTICAS ═══ -->
+  <section class="papus-stats-section" *ngIf="!cargandoBarberos || !cargandoServicios">
+    <div class="container">
+      <div class="papus-stats-grid reveal-section">
+        <div class="papus-stat-item">
+          <span class="papus-stat-number" [attr.data-count]="servicios.length" data-suffix="+">0</span>
+          <span class="papus-stat-label">Servicios activos</span>
         </div>
-        
-        <div class="menu-grid">
-          <div 
-            class="menu-card" 
-            *ngFor="let item of menuItems"
-            [ngClass]="'card-' + item.color">
-            <a 
-              *ngIf="!item.external"
-              [routerLink]="item.path"
-              class="menu-link">
-              <div class="menu-icon">
-                <i [class]="item.icon"></i>
+        <div class="papus-stat-item">
+          <span class="papus-stat-number" [attr.data-count]="barberos.length" data-suffix="">0</span>
+          <span class="papus-stat-label">Barberos expertos</span>
+        </div>
+        <div class="papus-stat-item">
+          <span class="papus-stat-number" data-count="100" data-suffix="%">0</span>
+          <span class="papus-stat-label">Compromiso con el cliente</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CATÁLOGO API (precios) ═══ -->
+  <section id="catalogo" class="papus-section papus-catalog-section" *ngIf="servicios.length > 0">
+    <header class="papus-section-head reveal-section">
+      <div class="papus-section-line" aria-hidden="true"></div>
+      <h2 class="papus-section-title">Catálogo de cortes</h2>
+      <p class="papus-section-subtitle">Precios y tiempos actualizados desde nuestro sistema.</p>
+    </header>
+    <div class="container">
+      <div class="row g-4 justify-content-center" *ngIf="!cargandoServicios">
+        <div class="col-md-6 col-lg-4" *ngFor="let servicio of servicios">
+          <article class="papus-service-card reveal-catalog-card">
+            <div class="service-icon"><i class="fas fa-cut"></i></div>
+            <h3>{{ servicio.nombre }}</h3>
+            <p class="text-cream-muted small" *ngIf="servicio.descripcion">{{ servicio.descripcion }}</p>
+            <p class="text-cream-muted small" *ngIf="!servicio.descripcion">
+              {{ servicio.tiempoMinutos }} min de experiencia premium
+            </p>
+            <div class="service-price">Q{{ servicio.precio | number:'1.2-2' }}</div>
+          </article>
+        </div>
+      </div>
+      <div class="text-center py-4" *ngIf="cargandoServicios">
+        <div class="spinner-border text-gold" role="status"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ GALERÍA / EQUIPO ═══ -->
+  <section id="galeria" class="papus-section papus-gallery-section">
+    <header class="papus-section-head reveal-section">
+      <div class="papus-section-line" aria-hidden="true"></div>
+      <h2 class="papus-section-title">Nuestro equipo</h2>
+      <p class="papus-section-subtitle">
+        Barberos con pasión por el oficio y años de experiencia al servicio de tu imagen.
+      </p>
+    </header>
+    <div class="container">
+      <div class="row g-4 justify-content-center" *ngIf="!cargandoBarberos">
+        <div class="col-md-6 col-lg-3" *ngFor="let barbero of barberos">
+          <article class="papus-barber-card reveal-barber">
+            <div class="barber-photo">
+              <span class="papus-barber-initial">{{ getInitials(barbero.nombre) }}</span>
+              <div class="barber-overlay"></div>
+            </div>
+            <div class="barber-info">
+              <h3>{{ barbero.nombre }}</h3>
+              <p class="small text-cream-muted mb-0">Barbero profesional</p>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="text-center py-4" *ngIf="cargandoBarberos">
+        <div class="spinner-border text-gold" role="status"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ RESERVAS ═══ -->
+  <section id="reservas" class="papus-section reservas-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="reservas-panel reveal-section">
+            <h2 class="papus-section-title mb-3">Reserva tu experiencia</h2>
+            <p class="text-cream-muted text-center mb-4">
+              Elige barbero, servicio y horario. Confirmación por correo.
+            </p>
+            <form class="reservas-cta-form" (ngSubmit)="irACitas()">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Nombre</label>
+                  <input type="text" class="form-control" [(ngModel)]="previewNombre" name="nombre" placeholder="Tu nombre">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Correo</label>
+                  <input type="email" class="form-control" [(ngModel)]="previewCorreo" name="correo" placeholder="tu@correo.com">
+                </div>
               </div>
-              <h3 class="menu-title">{{ item.label }}</h3>
-              <p class="menu-description">{{ item.description }}</p>
-              <div class="menu-arrow">
-                <i class="fas fa-arrow-right"></i>
-              </div>
-            </a>
-            <a 
-              *ngIf="item.external"
-              [attr.href]="item.path"
-              [attr.target]="'_blank'"
-              [attr.rel]="'noopener noreferrer'"
-              class="menu-link">
-              <div class="menu-icon">
-                <i [class]="item.icon"></i>
-              </div>
-              <h3 class="menu-title">{{ item.label }}</h3>
-              <p class="menu-description">{{ item.description }}</p>
-              <div class="menu-arrow">
-                <i class="fas fa-arrow-right"></i>
-              </div>
-            </a>
+              <button type="submit" class="btn-papus-filled w-100 mt-4 papus-shimmer-btn" #reservasBtn>
+                Continuar a reservar
+              </button>
+            </form>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>
-

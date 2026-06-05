@@ -1,22 +1,61 @@
-<div class="container-fluid page-container">
-  <div class="d-flex justify-content-end mb-3">
-    <button class="cssbuttons-io-button" routerLink="/home">
-      <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0h24v24H0z" fill="none"></path>
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"></path>
-      </svg>
-      <span>Menú</span>
-    </button>
-  </div>
-  <div class="construction-container">
-    <div class="construction-content">
-      <i class="fas fa-tools fa-5x mb-4 text-warning"></i>
-      <h1 class="mb-3">Página en Construcción</h1>
-      <p class="lead mb-4">Estamos trabajando en esta sección. Pronto estará disponible.</p>
-      <div class="spinner-border text-primary" role="status">
+<div class="papus-academia-page" #pageRoot>
+  <header class="papus-internal-hero reveal-section">
+    <div class="papus-section-line"></div>
+    <h1><i class="fas fa-graduation-cap me-2"></i> Academia Papus</h1>
+    <p>Formación profesional en barbería. Muy pronto abrimos inscripciones.</p>
+    <div class="papus-internal-actions justify-content-center mt-3">
+      <a routerLink="/" class="btn-papus-ghost btn-sm"><i class="fas fa-home me-1"></i> Menú</a>
+      <a routerLink="/acerca-de-nosotros" class="btn-papus-ghost btn-sm"><i class="fas fa-info-circle me-1"></i> Nosotros</a>
+    </div>
+  </header>
+
+  <div class="papus-card papus-coming-soon-card reveal-section">
+    <div class="papus-card-body text-center">
+      <div class="coming-soon-icon" aria-hidden="true">
+        <i class="fas fa-tools"></i>
+      </div>
+      <h2>Próximamente</h2>
+      <p class="lead">
+        Estamos preparando cursos, talleres y certificaciones para quienes quieren dominar el arte de la barbería con el sello Papus.
+      </p>
+      <div class="coming-soon-features">
+        <span><i class="fas fa-cut me-2"></i>Técnicas profesionales</span>
+        <span><i class="fas fa-users me-2"></i>Grupos reducidos</span>
+        <span><i class="fas fa-certificate me-2"></i>Certificación</span>
+      </div>
+      <div class="spinner-border mt-4" role="status">
         <span class="visually-hidden">Cargando...</span>
       </div>
     </div>
   </div>
-</div>
 
+  <section class="reveal-section">
+    <header class="text-center mb-4">
+      <div class="papus-section-line mx-auto"></div>
+      <h2 class="papus-section-title">¿Te interesa?</h2>
+      <p class="text-muted-premium">Déjanos tu mensaje y te avisamos cuando abramos inscripciones.</p>
+    </header>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-5">
+        <div class="papus-social-card">
+          <i class="fab fa-whatsapp"></i>
+          <h5>Escríbenos por WhatsApp</h5>
+          <p>Cuéntanos que te interesa la academia y te contactamos.</p>
+          <a [href]="whatsappUrl" target="_blank" rel="noopener noreferrer" class="btn-papus-filled btn-sm">
+            <i class="fab fa-whatsapp me-2"></i> Contactar
+          </a>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="papus-social-card">
+          <i class="fas fa-calendar-check"></i>
+          <h5>Mientras tanto</h5>
+          <p>Agenda tu cita y vive la experiencia Papus en el local.</p>
+          <a routerLink="/citas" class="btn-papus-outline-gold btn-sm">
+            <i class="fas fa-calendar-plus me-2"></i> Reservar cita
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

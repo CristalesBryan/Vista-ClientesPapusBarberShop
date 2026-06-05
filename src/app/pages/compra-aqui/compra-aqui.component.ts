@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { GsapAnimationService } from '../../services/gsap-animation.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -18,7 +19,9 @@ interface ItemCarrito {
   templateUrl: './compra-aqui.component.html',
   styleUrls: ['./compra-aqui.component.css']
 })
-export class CompraAquiComponent implements OnInit, OnDestroy {
+export class CompraAquiComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('pageRoot') pageRoot?: ElementRef<HTMLElement>;
+  private gsapCtx?: ReturnType<GsapAnimationService['context']>;
   productos: Producto[] = [];
   cargando = true;
   productosFiltrados: Producto[] = [];
@@ -40,17 +43,10 @@ export class CompraAquiComponent implements OnInit, OnDestroy {
   confirmacionAccion: (() => void) | null = null;
   confirmacionTipo: 'success' | 'warning' | 'danger' | 'info' = 'warning';
   
-  // Array para generar partículas
-  particulas = Array.from({ length: 20 }, (_, i) => ({
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    delay: Math.random(),
-    duration: 0.5 + Math.random() * 0.5
-  }));
-
   constructor(
     private productoService: ProductoService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private gsapService: GsapAnimationService
   ) {}
 
   ngOnInit(): void {
@@ -134,6 +130,7 @@ export class CompraAquiComponent implements OnInit, OnDestroy {
         
         // Forzar detección de cambios
         this.cdr.detectChanges();
+        setTimeout(() => this.tryAnimateProducts());
       },
       error: (error) => {
         console.error('Error al cargar productos:', error);
@@ -453,8 +450,23 @@ export class CompraAquiComponent implements OnInit, OnDestroy {
     // this.cerrarCarrito();
   }
 
+  ngAfterViewInit(): void {
+    const root = this.pageRoot?.nativeElement;
+    if (!root) return;
+    this.gsapCtx = this.gsapService.context(root, () => {
+      this.gsapService.scrollReveal(root, '.reveal-section');
+    });
+    setTimeout(() => this.tryAnimateProducts());
+  }
+
+  private tryAnimateProducts(): void {
+    const root = this.pageRoot?.nativeElement;
+    if (!root || this.cargando || !this.productosFiltrados.length) return;
+    this.gsapService.revealStagger(root, '.reveal-product-card', 0.08);
+  }
+
   ngOnDestroy(): void {
-    // Asegurar que el modal esté cerrado al destruir el componente
+    this.gsapService.revert(this.gsapCtx);
     this.cerrarModalImagen();
   }
 

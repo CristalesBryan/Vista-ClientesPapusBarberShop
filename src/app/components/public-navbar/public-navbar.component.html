@@ -1,0 +1,40 @@
+<header class="papus-public-nav" [class.scrolled]="scrolled">
+  <a routerLink="/" class="nav-logo" (click)="closeMobile()">
+    <img src="assets/images/PestañaCliente.jpeg" alt="" class="nav-logo-img" width="36" height="36">
+    <span class="nav-logo-text">PAPUS</span>
+  </a>
+
+  <nav class="d-none d-lg-block" aria-label="Principal">
+    <ul class="nav-links">
+      <li *ngFor="let link of links">
+        <a *ngIf="link.fragment"
+           class="nav-link"
+           [routerLink]="link.path"
+           [fragment]="link.fragment"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: link.path === '/' }">{{ link.label }}</a>
+        <a *ngIf="!link.fragment"
+           class="nav-link"
+           [routerLink]="link.path"
+           routerLinkActive="active">{{ link.label }}</a>
+      </li>
+    </ul>
+  </nav>
+
+  <a routerLink="/citas" class="btn-papus-outline-gold nav-reserve-btn d-none d-lg-inline-flex">Reservar</a>
+
+  <button type="button" class="nav-mobile-toggle d-lg-none" (click)="toggleMobile()" [attr.aria-expanded]="mobileOpen" aria-label="Menú">
+    <i class="fas" [class.fa-bars]="!mobileOpen" [class.fa-times]="mobileOpen"></i>
+  </button>
+</header>
+
+<div class="nav-mobile-panel" [class.open]="mobileOpen" role="dialog" aria-label="Menú de navegación">
+  <a *ngFor="let link of links"
+     class="nav-mobile-link"
+     [routerLink]="link.path"
+     [fragment]="link.fragment"
+     (click)="closeMobile()">{{ link.label }}</a>
+  <a routerLink="/citas" class="btn-papus-filled w-100 mt-3" (click)="closeMobile()">Reservar</a>
+</div>
+
+<div class="nav-mobile-backdrop" [class.open]="mobileOpen" (click)="closeMobile()" aria-hidden="true"></div>

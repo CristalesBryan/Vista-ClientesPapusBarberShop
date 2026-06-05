@@ -1,4 +1,5 @@
-/* Estilos globales para Papus BarberShop */
+@import './styles/papus-theme.css';
+@import './styles/public-pages.css';
 
 * {
   margin: 0;
@@ -7,9 +8,64 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
+  font-family: var(--font-body);
+  background-color: var(--ink-deep);
+  color: var(--cream);
+}
+
+body.papus-public .page-container,
+body.papus-public .container-fluid.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+body.papus-public h2 {
+  font-family: var(--font-display);
+  color: var(--gold);
+}
+
+body.papus-public .card {
+  background: var(--ink-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--cream);
+}
+
+body.papus-public .card-header {
+  background: var(--ink-elevated) !important;
+  color: var(--gold) !important;
+  border-bottom: 1px solid var(--border-gold) !important;
+}
+
+body.papus-public .form-control,
+body.papus-public .form-select {
+  background: var(--ink-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--cream);
+}
+
+body.papus-public .form-control:focus,
+body.papus-public .form-select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+  color: var(--cream);
+  background: var(--ink-elevated);
+}
+
+body.papus-public .btn-primary {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  border: none;
+  color: var(--ink-deep);
+}
+
+body.papus-public .btn-outline-primary {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+body.papus-public .btn-outline-primary:hover {
+  background: rgba(201, 168, 76, 0.15);
+  color: var(--gold-light);
 }
 
 .container-fluid {
