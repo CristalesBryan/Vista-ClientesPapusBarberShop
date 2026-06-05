@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { ReactWrapperComponent } from '../../react-wrapper/react-wrapper.component';
 import { MapComponent, type PapusMapProps } from './map.component';
+import {
+  PAPUS_ADDRESS_SHORT,
+  PAPUS_MAP_CENTER,
+  PAPUS_MAP_ZOOM
+} from '../../constants/papus-location';
 
 /** Wrapper Angular del mapa React (Papus BarberShop). */
 @Component({
@@ -27,9 +32,9 @@ export class MapWrapperComponent {
   readonly mapComponent = MapComponent;
 
   readonly mapProps: PapusMapProps = {
-    center: [-90.6412, 14.7089],
-    zoom: 16,
+    center: PAPUS_MAP_CENTER,
+    zoom: PAPUS_MAP_ZOOM,
     businessName: 'Papus BarberShop',
-    address: 'Lote 30 Mz. F, Col. Villa Verde'
+    address: PAPUS_ADDRESS_SHORT
   };
 }

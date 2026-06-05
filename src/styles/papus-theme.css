@@ -37,6 +37,7 @@
 .font-body { font-family: var(--font-body); }
 .text-gold { color: var(--gold) !important; }
 .text-cream { color: var(--cream) !important; }
+.text-cream-muted { color: var(--cream-muted) !important; }
 
 /* Logo de marca — eliminar caja blanca sobre fondos oscuros */
 .papus-brand-logo,

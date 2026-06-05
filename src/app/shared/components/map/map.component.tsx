@@ -1,5 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
+import {
+  PAPUS_ADDRESS_SHORT,
+  PAPUS_MAP_CENTER,
+  PAPUS_MAP_ZOOM
+} from '../../constants/papus-location';
 
 /** Estilo oscuro CARTO (mismo basemap que usa mapcn en tema dark). */
 const DARK_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
@@ -16,10 +21,10 @@ export interface PapusMapProps {
  * Coordenadas en formato [longitud, latitud].
  */
 export function MapComponent({
-  center = [-90.6412, 14.7089],
-  zoom = 16,
+  center = PAPUS_MAP_CENTER,
+  zoom = PAPUS_MAP_ZOOM,
   businessName = 'Papus BarberShop',
-  address = 'Lote 30 Mz. F, Col. Villa Verde'
+  address = PAPUS_ADDRESS_SHORT
 }: PapusMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -30,10 +35,12 @@ export function MapComponent({
       return;
     }
 
+    const [lng, lat] = center;
+
     const map = new maplibregl.Map({
       container,
       style: DARK_STYLE,
-      center,
+      center: [lng, lat],
       zoom,
       attributionControl: false
     });
@@ -56,10 +63,16 @@ export function MapComponent({
       </div>`
     );
 
-    new maplibregl.Marker({ element: markerEl, anchor: 'bottom' })
-      .setLngLat(center)
+    const marker = new maplibregl.Marker({ element: markerEl, anchor: 'bottom' })
+      .setLngLat([lng, lat])
       .setPopup(popup)
       .addTo(map);
+
+    map.on('load', () => {
+      map.resize();
+      map.flyTo({ center: [lng, lat], zoom, duration: 800, essential: true });
+      marker.togglePopup();
+    });
 
     mapRef.current = map;
 

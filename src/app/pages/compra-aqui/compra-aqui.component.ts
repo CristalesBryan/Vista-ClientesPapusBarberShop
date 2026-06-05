@@ -138,10 +138,22 @@ export class CompraAquiComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   tieneDescripcion(producto: Producto): boolean {
-    return !!(producto.descripcion && 
-              producto.descripcion !== undefined && 
-              typeof producto.descripcion === 'string' && 
+    return !!(producto.descripcion &&
+              producto.descripcion !== undefined &&
+              typeof producto.descripcion === 'string' &&
               producto.descripcion.trim().length > 0);
+  }
+
+  getLineasDescripcion(producto: Producto): string[] {
+    if (!this.tieneDescripcion(producto) || !producto.descripcion) {
+      return [];
+    }
+
+    return producto.descripcion
+      .split(/\r?\n/)
+      .map(linea => linea.trim())
+      .filter(linea => linea.length > 0)
+      .map(linea => linea.replace(/^[\[✓✔☑•\-–—]+\s*\]?\s*/u, '').trim());
   }
 
   obtenerDescripcion(productoId: number): string {

@@ -449,6 +449,75 @@
   font-size: 1.35rem;
 }
 
+.papus-compra-page .producto-precio-label {
+  display: block;
+  color: var(--cream-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.15rem;
+}
+
+.papus-compra-page .producto-stock-ok {
+  color: var(--cream-muted);
+}
+
+.papus-compra-page .text-muted {
+  color: var(--cream-muted) !important;
+}
+
+.papus-compra-page .descripcion-info {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.papus-compra-page .descripcion-info-heading {
+  color: var(--gold);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 0.65rem;
+  font-weight: 600;
+}
+
+.papus-compra-page .descripcion-info-heading .fa-info-circle {
+  color: var(--gold);
+}
+
+.papus-compra-page .descripcion-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.papus-compra-page .descripcion-lista li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: var(--cream);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.papus-compra-page .descripcion-check {
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+  color: #81c784;
+  font-size: 0.75rem;
+}
+
+.papus-compra-page .descripcion-texto {
+  color: var(--cream-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-line;
+}
+
 .papus-badge-count {
   background: rgba(201, 168, 76, 0.15) !important;
   color: var(--gold) !important;

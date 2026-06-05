@@ -17,6 +17,7 @@ import { TipoCorteAPI } from '../../models/tipo-corte-api.model';
 import { Barbero } from '../../models/barbero.model';
 import { GsapAnimationService } from '../../services/gsap-animation.service';
 import { MapWrapperComponent } from '../../shared/components/map/map-wrapper.component';
+import { PAPUS_GOOGLE_MAPS_URL } from '../../shared/constants/papus-location';
 
 interface AccessCard {
   title: string;
@@ -57,6 +58,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   cargandoBarberos = true;
   previewNombre = '';
   previewCorreo = '';
+  readonly googleMapsUrl = PAPUS_GOOGLE_MAPS_URL;
 
   accessCards: AccessCard[] = [
     {
