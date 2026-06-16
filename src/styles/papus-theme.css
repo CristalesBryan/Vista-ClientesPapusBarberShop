@@ -923,6 +923,30 @@ body.sidebar-collapsed.papus-admin .content-area.with-sidebar {
     backdrop-filter var(--transition-base), padding var(--transition-base);
 }
 
+@media (min-width: 992px) {
+  .papus-public-nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    justify-content: unset;
+  }
+
+  .papus-public-nav .nav-logo-group {
+    justify-self: start;
+    grid-column: 1;
+  }
+
+  .papus-public-nav > nav {
+    grid-column: 2;
+    justify-self: center;
+  }
+
+  .papus-public-nav .nav-reserve-btn {
+    grid-column: 3;
+    justify-self: end;
+  }
+}
+
 .papus-public-nav.scrolled {
   background: rgba(10, 10, 10, 0.92);
   backdrop-filter: blur(16px);
