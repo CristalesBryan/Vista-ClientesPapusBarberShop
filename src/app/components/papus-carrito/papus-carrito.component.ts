@@ -19,6 +19,13 @@ import { Producto } from '../../models/producto.model';
 export interface CarritoItem {
   producto: Producto;
   cantidad: number;
+  tipo?: 'producto' | 'merch';
+  lineKey?: string;
+  varianteId?: number;
+  talla?: string;
+  precioUnitario?: number;
+  personalizacionNombre?: string;
+  personalizacionNumero?: string;
 }
 
 @Component({
@@ -39,8 +46,8 @@ export class PapusCarritoComponent implements AfterViewInit, OnChanges, OnDestro
   @Output() cerrarCarrito = new EventEmitter<void>();
   @Output() vaciarCarrito = new EventEmitter<void>();
   @Output() finalizarCompra = new EventEmitter<void>();
-  @Output() eliminarItem = new EventEmitter<number>();
-  @Output() cantidadChange = new EventEmitter<{ productoId: number; cantidad: number }>();
+  @Output() eliminarItem = new EventEmitter<number | string>();
+  @Output() cantidadChange = new EventEmitter<{ productoId?: number; lineKey?: string; cantidad: number }>();
   @Output() imageError = new EventEmitter<{ event: Event; producto: Producto }>();
   @Output() verProductos = new EventEmitter<void>();
 
@@ -49,8 +56,8 @@ export class PapusCarritoComponent implements AfterViewInit, OnChanges, OnDestro
 
   displayedTotal = 0;
   private gsapCtx?: gsap.Context;
-  private animatedItemIds = new Set<number>();
-  private prevQuantities = new Map<number, number>();
+  private animatedItemKeys = new Set<string>();
+  private prevQuantities = new Map<string, number>();
   private shimmerTween?: gsap.core.Tween;
   private shimmerBound = false;
 
@@ -95,7 +102,14 @@ export class PapusCarritoComponent implements AfterViewInit, OnChanges, OnDestro
     this.gsapService.revert(this.gsapCtx);
   }
 
-  trackByProductoId(_index: number, item: CarritoItem): number {
+  trackByCartItem(_index: number, item: CarritoItem): string | number {
+    return this.getItemKey(item);
+  }
+
+  getItemKey(item: CarritoItem): string | number {
+    if (item.tipo === 'merch' && item.lineKey) {
+      return item.lineKey;
+    }
     return item.producto.id;
   }
 
@@ -116,22 +130,25 @@ export class PapusCarritoComponent implements AfterViewInit, OnChanges, OnDestro
 
   onCantidadMinus(item: CarritoItem, event: Event): void {
     event.stopPropagation();
-    this.cantidadChange.emit({
-      productoId: item.producto.id,
-      cantidad: item.cantidad - 1
-    });
+    this.emitCantidadChange(item, item.cantidad - 1);
   }
 
   onCantidadPlus(item: CarritoItem, event: Event): void {
     event.stopPropagation();
-    this.cantidadChange.emit({
-      productoId: item.producto.id,
-      cantidad: item.cantidad + 1
-    });
+    this.emitCantidadChange(item, item.cantidad + 1);
   }
 
-  onEliminar(productoId: number, event: Event): void {
+  private emitCantidadChange(item: CarritoItem, cantidad: number): void {
+    if (item.tipo === 'merch' && item.lineKey) {
+      this.cantidadChange.emit({ lineKey: item.lineKey, cantidad });
+    } else {
+      this.cantidadChange.emit({ productoId: item.producto.id, cantidad });
+    }
+  }
+
+  onEliminar(item: CarritoItem, event: Event): void {
     event.stopPropagation();
+    const key = this.getItemKey(item);
     const el = (event.currentTarget as HTMLElement).closest('[data-cart-item]') as HTMLElement | null;
 
     if (el && !this.gsapService.prefersReducedMotion) {
@@ -141,15 +158,15 @@ export class PapusCarritoComponent implements AfterViewInit, OnChanges, OnDestro
         duration: 0.22,
         ease: 'power2.in',
         onComplete: () => {
-          this.animatedItemIds.delete(productoId);
-          this.prevQuantities.delete(productoId);
-          this.eliminarItem.emit(productoId);
+          this.animatedItemKeys.delete(String(key));
+          this.prevQuantities.delete(String(key));
+          this.eliminarItem.emit(key);
         }
       });
     } else {
-      this.animatedItemIds.delete(productoId);
-      this.prevQuantities.delete(productoId);
-      this.eliminarItem.emit(productoId);
+      this.animatedItemKeys.delete(String(key));
+      this.prevQuantities.delete(String(key));
+      this.eliminarItem.emit(key);
     }
   }
 
@@ -162,23 +179,25 @@ export class PapusCarritoComponent implements AfterViewInit, OnChanges, OnDestro
   }
 
   getSubtotal(item: CarritoItem): number {
-    return item.producto.precioVenta * item.cantidad;
+    const precio = item.precioUnitario ?? item.producto.precioVenta;
+    return precio * item.cantidad;
   }
 
   private handleItemsChange(): void {
-    const currentIds = new Set(this.items.map(i => i.producto.id));
+    const currentKeys = new Set(this.items.map(i => String(this.getItemKey(i))));
 
     this.items.forEach(item => {
-      const prevQty = this.prevQuantities.get(item.producto.id);
+      const key = String(this.getItemKey(item));
+      const prevQty = this.prevQuantities.get(key);
       if (prevQty !== undefined && prevQty !== item.cantidad) {
-        setTimeout(() => this.bounceQuantity(item.producto.id), 0);
+        setTimeout(() => this.bounceQuantity(key), 0);
       }
-      this.prevQuantities.set(item.producto.id, item.cantidad);
+      this.prevQuantities.set(key, item.cantidad);
     });
 
-    for (const id of this.animatedItemIds) {
-      if (!currentIds.has(id)) {
-        this.animatedItemIds.delete(id);
+    for (const key of this.animatedItemKeys) {
+      if (!currentKeys.has(key)) {
+        this.animatedItemKeys.delete(key);
       }
     }
 
@@ -191,8 +210,9 @@ export class PapusCarritoComponent implements AfterViewInit, OnChanges, OnDestro
     if (!root) return;
 
     this.items.forEach(item => {
-      if (this.animatedItemIds.has(item.producto.id)) return;
-      const el = root.querySelector(`[data-cart-item="${item.producto.id}"]`);
+      const key = String(this.getItemKey(item));
+      if (this.animatedItemKeys.has(key)) return;
+      const el = root.querySelector(`[data-cart-item="${key}"]`);
       if (!el) return;
 
       gsap.from(el, {
@@ -201,14 +221,14 @@ export class PapusCarritoComponent implements AfterViewInit, OnChanges, OnDestro
         duration: 0.35,
         ease: 'power2.out'
       });
-      this.animatedItemIds.add(item.producto.id);
+      this.animatedItemKeys.add(key);
     });
   }
 
-  private bounceQuantity(productoId: number): void {
+  private bounceQuantity(key: string): void {
     if (this.gsapService.prefersReducedMotion) return;
     const root = this.cartPanel?.nativeElement;
-    const el = root?.querySelector(`[data-cart-qty="${productoId}"]`);
+    const el = root?.querySelector(`[data-cart-qty="${key}"]`);
     if (!el) return;
 
     gsap.fromTo(

@@ -349,12 +349,15 @@ export class CompraAquiComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mostrarCarrito = true;
   }
 
-  eliminarDelCarrito(productoId: number): void {
+  eliminarDelCarrito(productoId: number | string): void {
+    if (typeof productoId !== 'number') return;
     this.carrito = this.carrito.filter(item => item.producto.id !== productoId);
   }
 
-  onCantidadCarritoChange(event: { productoId: number; cantidad: number }): void {
-    this.actualizarCantidad(event.productoId, event.cantidad);
+  onCantidadCarritoChange(event: { productoId?: number; lineKey?: string; cantidad: number }): void {
+    if (event.productoId != null) {
+      this.actualizarCantidad(event.productoId, event.cantidad);
+    }
   }
 
   scrollAProductos(): void {

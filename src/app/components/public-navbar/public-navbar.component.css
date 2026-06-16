@@ -1,8 +1,62 @@
+.nav-logo-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
 .nav-logo {
   display: flex;
   align-items: center;
   gap: 0.65rem;
   text-decoration: none;
+}
+
+.nav-logo-divider {
+  width: 1px;
+  height: 28px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(201, 168, 76, 0.55) 20%,
+    rgba(201, 168, 76, 0.55) 80%,
+    transparent
+  );
+  flex-shrink: 0;
+}
+
+.nav-el10-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  line-height: 0;
+  transition: opacity var(--transition-base), transform var(--transition-base);
+}
+
+.nav-el10-link:hover {
+  opacity: 0.92;
+  transform: scale(1.03);
+}
+
+.nav-el10-logo {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 575.98px) {
+  .nav-el10-logo {
+    height: 32px;
+  }
+
+  .nav-logo-divider {
+    height: 24px;
+  }
+
+  .nav-logo-group {
+    gap: 0.5rem;
+  }
 }
 
 .nav-logo-img {

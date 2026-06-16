@@ -1,0 +1,160 @@
+<div class="papus-compra-page merch-detail-page" #pageRoot>
+  <header class="papus-internal-hero reveal-section merch-detail-hero">
+    <div class="papus-internal-actions justify-content-between w-100">
+      <a routerLink="/merchandising" class="btn-papus-ghost btn-sm">
+        <i class="fas fa-arrow-left me-1"></i> Volver al catálogo
+      </a>
+      <app-papus-carrito
+        [items]="carrito"
+        [visible]="mostrarCarrito"
+        [cantidadTotal]="getCantidadTotalItems()"
+        [total]="getTotalCarrito()"
+        [imagenResolver]="resolverImagen"
+        (toggleCarrito)="toggleCarrito()"
+        (cerrarCarrito)="cerrarCarrito()"
+        (vaciarCarrito)="vaciarCarrito()"
+        (finalizarCompra)="finalizarCompra()"
+        (eliminarItem)="onEliminarCarrito($event)"
+        (cantidadChange)="onCantidadCarritoChange($event)"
+        (imageError)="onImageError($event.event, $event.producto)"
+        (verProductos)="cerrarCarrito()">
+      </app-papus-carrito>
+    </div>
+  </header>
+
+  <div class="text-center" *ngIf="cargando">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <div class="alert alert-info reveal-section" *ngIf="!cargando && error">
+    <i class="fas fa-exclamation-circle me-2"></i>
+    No se encontró el producto solicitado.
+    <a routerLink="/merchandising" class="ms-2">Volver al catálogo</a>
+  </div>
+
+  <div class="row g-4 merch-detail-layout reveal-section" *ngIf="!cargando && producto">
+    <!-- Galería -->
+    <div class="col-lg-6">
+      <div class="merch-gallery">
+        <div class="merch-gallery-main">
+          <img
+            #mainImage
+            [src]="imagenActiva"
+            [alt]="producto.nombre"
+            class="merch-gallery-main-img"
+            (error)="onImageError($event)">
+        </div>
+        <div class="merch-gallery-thumbs" *ngIf="imagenes.length > 1">
+          <button
+            type="button"
+            class="merch-thumb"
+            *ngFor="let img of imagenes; let i = index"
+            [class.merch-thumb--active]="i === imagenActivaIndex"
+            (click)="seleccionarImagen(i)"
+            [attr.aria-label]="'Ver imagen ' + (i + 1)">
+            <img [src]="img.url" [alt]="producto.nombre + ' vista ' + (i + 1)" loading="lazy">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="col-lg-6">
+      <div class="merch-info">
+        <div class="merch-info-badges mb-2">
+          <span class="merch-badge merch-badge--nuevo" *ngIf="producto.esNuevo">Nuevo</span>
+          <span class="merch-badge merch-badge--custom" *ngIf="producto.badge">{{ producto.badge }}</span>
+          <span class="badge papus-badge-stock" *ngIf="hayStock">
+            <i class="fas fa-check-circle me-1"></i> En stock
+          </span>
+          <span class="badge papus-badge-out" *ngIf="!hayStock">
+            <i class="fas fa-times-circle me-1"></i> Agotado
+          </span>
+        </div>
+
+        <h1 class="merch-info-title">{{ producto.nombre }}</h1>
+        <p class="merch-info-categoria">{{ producto.categoria }}</p>
+        <p class="merch-info-precio">Q{{ precioActual | number:'1.2-2' }}</p>
+
+        <!-- Tallas -->
+        <div class="merch-variantes" *ngIf="requiereVariante">
+          <p class="merch-section-label">Talla</p>
+          <div class="merch-talla-btns">
+            <button
+              type="button"
+              class="merch-talla-btn"
+              *ngFor="let v of producto.variantes"
+              [class.merch-talla-btn--active]="varianteSeleccionada?.id === v.id || varianteSeleccionada?.talla === v.talla"
+              [class.merch-talla-btn--disabled]="v.stock <= 0"
+              [disabled]="v.stock <= 0"
+              (click)="seleccionarVariante(v)">
+              {{ v.talla }}
+            </button>
+          </div>
+          <p class="merch-stock-hint" *ngIf="varianteSeleccionada">
+            {{ varianteSeleccionada.stock }} disponible(s) en talla {{ varianteSeleccionada.talla }}
+          </p>
+        </div>
+
+        <!-- Personalización -->
+        <div class="merch-personalizacion" *ngIf="producto.permitePersonalizacion">
+          <p class="merch-section-label">Personalización</p>
+          <div class="row g-2">
+            <div class="col-sm-6">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Nombre"
+                maxlength="30"
+                [(ngModel)]="personalizacionNombre">
+            </div>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Número"
+                maxlength="10"
+                [(ngModel)]="personalizacionNumero">
+            </div>
+          </div>
+          <small class="merch-personalizacion-hint">Ambos campos son obligatorios para personalizar.</small>
+        </div>
+
+        <!-- Cantidad -->
+        <div class="merch-cantidad">
+          <p class="merch-section-label">Cantidad</p>
+          <div class="merch-cantidad-controls">
+            <button type="button" class="merch-qty-btn" (click)="cambiarCantidad(-1)" [disabled]="cantidad <= 1" aria-label="Disminuir">
+              <i class="fas fa-minus"></i>
+            </button>
+            <span class="merch-qty-value">{{ cantidad }}</span>
+            <button type="button" class="merch-qty-btn" (click)="cambiarCantidad(1)" [disabled]="cantidad >= stockActual" aria-label="Aumentar">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="btn-papus-filled w-100 merch-add-btn"
+          [disabled]="!puedeAgregar"
+          (click)="agregarAlCarrito()">
+          <i class="fas fa-cart-plus me-2"></i> Agregar al carrito
+        </button>
+
+        <!-- Descripción acordeón -->
+        <div class="merch-accordion" *ngIf="producto.descripcion">
+          <button type="button" class="merch-accordion-trigger" (click)="toggleDescripcion()" [attr.aria-expanded]="descripcionAbierta">
+            <span>Descripción</span>
+            <i class="fas" [class.fa-chevron-down]="!descripcionAbierta" [class.fa-chevron-up]="descripcionAbierta"></i>
+          </button>
+          <div class="merch-accordion-body" [class.merch-accordion-body--open]="descripcionAbierta">
+            <p>{{ producto.descripcion }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

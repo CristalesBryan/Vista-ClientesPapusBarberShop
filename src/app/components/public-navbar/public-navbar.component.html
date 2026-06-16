@@ -1,10 +1,20 @@
 <header class="papus-public-nav" [class.scrolled]="scrolled">
-  <a routerLink="/" class="nav-logo" (click)="closeMobile()">
-    <span class="papus-logo-shell papus-logo-shell--nav" aria-hidden="true">
-      <img [src]="logoSrc" [alt]="logoAlt" class="nav-logo-img papus-brand-logo">
-    </span>
-    <span class="nav-logo-text">PAPUS</span>
-  </a>
+  <div class="nav-logo-group">
+    <a routerLink="/" class="nav-logo" (click)="closeMobile()">
+      <span class="papus-logo-shell papus-logo-shell--nav" aria-hidden="true">
+        <img [src]="logoSrc" [alt]="logoAlt" class="nav-logo-img papus-brand-logo">
+      </span>
+      <span class="nav-logo-text">PAPUS</span>
+    </a>
+    <span class="nav-logo-divider" aria-hidden="true"></span>
+    <a
+      [routerLink]="el10MerchRoute"
+      class="nav-el10-link"
+      [title]="el10Tooltip"
+      (click)="closeMobile()">
+      <img [src]="el10LogoSrc" [alt]="el10LogoAlt" class="nav-el10-logo">
+    </a>
+  </div>
 
   <nav class="d-none d-lg-block" aria-label="Principal">
     <ul class="nav-links">

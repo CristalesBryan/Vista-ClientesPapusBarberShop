@@ -19,6 +19,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     '/api/tipos-corte',
     '/api/barberos',
     '/productos',
+    '/merchandising',
+    '/ventas-merch',
     '/api/citas/disponibilidad',
     '/api/s3/presigned-url',
     '/api/s3/producto-imagen',

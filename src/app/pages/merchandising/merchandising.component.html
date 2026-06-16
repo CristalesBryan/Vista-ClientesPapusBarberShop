@@ -1,0 +1,134 @@
+<div class="papus-compra-page merch-page" #pageRoot>
+  <header class="papus-internal-hero">
+    <div class="merch-el10-header">
+      <a routerLink="/merchandising" class="merch-el10-brand">
+        <img
+          #el10Logo
+          [src]="el10LogoSrc"
+          [alt]="el10LogoAlt"
+          class="merch-el10-logo">
+      </a>
+      <p class="merch-el10-tagline">Camisas, gorras y artículos oficiales del Mundial 2026</p>
+    </div>
+    <div class="papus-section-line reveal-section"></div>
+    <h1 class="reveal-section"><i class="fas fa-tshirt me-2"></i> Merchandising Papus</h1>
+    <p class="reveal-section">Ropa y accesorios exclusivos de Papus BarberShop.</p>
+    <div class="papus-internal-actions justify-content-center mt-3">
+      <button type="button" class="btn-papus-ghost btn-sm" (click)="cargarProductos()" title="Recargar catálogo">
+        <i class="fas fa-sync-alt me-1"></i> Recargar
+      </button>
+      <a routerLink="/" class="btn-papus-ghost btn-sm"><i class="fas fa-home me-1"></i> Menú</a>
+      <app-papus-carrito
+        [items]="carrito"
+        [visible]="mostrarCarrito"
+        [cantidadTotal]="getCantidadTotalItems()"
+        [total]="getTotalCarrito()"
+        [imagenResolver]="resolverImagen"
+        (toggleCarrito)="toggleCarrito()"
+        (cerrarCarrito)="cerrarCarrito()"
+        (vaciarCarrito)="vaciarCarrito()"
+        (finalizarCompra)="finalizarCompra()"
+        (eliminarItem)="onEliminarCarrito($event)"
+        (cantidadChange)="onCantidadCarritoChange($event)"
+        (imageError)="onImageError($event.event, $event.producto)"
+        (verProductos)="scrollAProductos()">
+      </app-papus-carrito>
+    </div>
+  </header>
+
+  <!-- Filtros -->
+  <div class="papus-card mb-4 reveal-section">
+    <div class="papus-card-body">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-4">
+          <label class="merch-filter-label" for="filtro-categoria">Categoría</label>
+          <select
+            id="filtro-categoria"
+            class="form-select"
+            [(ngModel)]="categoriaSeleccionada"
+            (ngModelChange)="aplicarFiltros()">
+            <option value="">Todas las categorías</option>
+            <option *ngFor="let cat of categorias.slice(1)" [value]="cat">{{ cat }}</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="merch-filter-label" for="filtro-precio-min">Precio mínimo (Q)</label>
+          <input
+            id="filtro-precio-min"
+            type="number"
+            class="form-control"
+            min="0"
+            step="0.01"
+            placeholder="0"
+            [(ngModel)]="precioMin"
+            (ngModelChange)="aplicarFiltros()">
+        </div>
+        <div class="col-md-3">
+          <label class="merch-filter-label" for="filtro-precio-max">Precio máximo (Q)</label>
+          <input
+            id="filtro-precio-max"
+            type="number"
+            class="form-control"
+            min="0"
+            step="0.01"
+            placeholder="Sin límite"
+            [(ngModel)]="precioMax"
+            (ngModelChange)="aplicarFiltros()">
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn-papus-ghost btn-sm w-100" (click)="limpiarFiltros()">
+            <i class="fas fa-times me-1"></i> Limpiar
+          </button>
+        </div>
+      </div>
+      <div class="mt-3 text-end">
+        <span class="badge papus-badge-count fs-6">
+          {{ productosFiltrados.length }} artículo(s)
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="text-center" *ngIf="cargando">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <!-- Catálogo -->
+  <div *ngIf="!cargando">
+    <div class="alert alert-info reveal-section" *ngIf="productosFiltrados.length === 0">
+      <i class="fas fa-info-circle me-2"></i>
+      No hay artículos que coincidan con los filtros seleccionados.
+    </div>
+
+    <div class="row g-4 merch-grid" *ngIf="productosFiltrados.length > 0">
+      <div class="col-6 col-md-4 col-lg-3" *ngFor="let producto of productosFiltrados">
+        <article class="merch-card reveal-merch-card h-100">
+          <a [routerLink]="['/merchandising', producto.id]" class="merch-card-link">
+            <div class="merch-card-image-wrap">
+              <img
+                [src]="getImagenPrincipal(producto)"
+                [alt]="producto.nombre"
+                class="merch-card-image"
+                (error)="onImageError($event)"
+                loading="lazy">
+              <div class="merch-card-badges">
+                <span class="merch-badge merch-badge--nuevo" *ngIf="producto.esNuevo">Nuevo</span>
+                <span class="merch-badge merch-badge--custom" *ngIf="producto.badge">{{ producto.badge }}</span>
+              </div>
+              <div class="merch-card-overlay">
+                <span class="merch-card-overlay-text">Ver más</span>
+              </div>
+            </div>
+            <div class="merch-card-body">
+              <h3 class="merch-card-title">{{ producto.nombre }}</h3>
+              <p class="merch-card-precio">{{ getPrecioLabel(producto) }}</p>
+            </div>
+          </a>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>

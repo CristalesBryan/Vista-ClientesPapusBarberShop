@@ -229,6 +229,18 @@
   color: #c9a84c;
 }
 
+.papus-cart-item-meta {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #888;
+  line-height: 1.4;
+}
+
+.papus-cart-item-meta strong {
+  color: #c9a84c;
+  font-weight: 600;
+}
+
 .papus-cart-item-controls {
   display: flex;
   align-items: center;

@@ -45,8 +45,8 @@
       <ul class="papus-cart-items" *ngIf="items.length > 0">
         <li
           class="papus-cart-item"
-          *ngFor="let item of items; trackBy: trackByProductoId"
-          [attr.data-cart-item]="item.producto.id">
+          *ngFor="let item of items; trackBy: trackByCartItem"
+          [attr.data-cart-item]="getItemKey(item)">
           <div class="papus-cart-item-image">
             <img
               [src]="imagenResolver(item.producto)"
@@ -61,12 +61,21 @@
               <button
                 type="button"
                 class="papus-cart-item-remove"
-                (click)="onEliminar(item.producto.id, $event)"
+                (click)="onEliminar(item, $event)"
                 title="Eliminar producto"
                 [attr.aria-label]="'Eliminar ' + item.producto.nombre">
                 <i class="fas fa-trash-alt" aria-hidden="true"></i>
               </button>
             </div>
+
+            <p class="papus-cart-item-meta" *ngIf="item.talla">
+              Talla: <strong>{{ item.talla }}</strong>
+            </p>
+            <p class="papus-cart-item-meta" *ngIf="item.personalizacionNombre || item.personalizacionNumero">
+              <span *ngIf="item.personalizacionNombre">Nombre: <strong>{{ item.personalizacionNombre }}</strong></span>
+              <span *ngIf="item.personalizacionNombre && item.personalizacionNumero"> · </span>
+              <span *ngIf="item.personalizacionNumero">Nº: <strong>{{ item.personalizacionNumero }}</strong></span>
+            </p>
 
             <p class="papus-cart-item-price">
               Q{{ getSubtotal(item) | number:'1.2-2' }}
@@ -80,7 +89,7 @@
                 aria-label="Disminuir cantidad">
                 <i class="fas fa-minus" aria-hidden="true"></i>
               </button>
-              <span class="papus-cart-qty-value" [attr.data-cart-qty]="item.producto.id">
+              <span class="papus-cart-qty-value" [attr.data-cart-qty]="getItemKey(item)">
                 {{ item.cantidad }}
               </span>
               <button

@@ -14,6 +14,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/compra-aqui/compra-aqui.component').then(m => m.CompraAquiComponent)
   },
   {
+    path: 'merchandising',
+    loadComponent: () => import('./pages/merchandising/merchandising.component').then(m => m.MerchandisingComponent)
+  },
+  {
+    path: 'merchandising/:id',
+    loadComponent: () => import('./pages/merchandising-producto/merchandising-producto.component').then(m => m.MerchandisingProductoComponent)
+  },
+  {
     path: 'acerca-de-nosotros',
     loadComponent: () => import('./pages/acerca-de-nosotros/acerca-de-nosotros.component').then(m => m.AcercaDeNosotrosComponent)
   },

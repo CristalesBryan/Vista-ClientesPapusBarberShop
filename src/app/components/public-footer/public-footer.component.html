@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row footer-grid g-4 g-lg-5">
       <!-- Columna 1: marca + redes -->
-      <div class="col-lg-4 footer-col footer-col--brand">
+      <div class="col-lg-3 footer-col footer-col--brand">
         <span class="papus-logo-shell papus-logo-shell--footer" aria-hidden="true">
           <img [src]="logoSrc" [alt]="logoAlt" class="footer-logo papus-brand-logo">
         </span>
@@ -24,7 +24,7 @@
       </div>
 
       <!-- Columna 2: enlaces rápidos -->
-      <div class="col-lg-4 footer-col footer-col--links">
+      <div class="col-lg-3 footer-col footer-col--links">
         <h4 class="footer-col-title">Enlaces</h4>
         <ul class="footer-quick-links">
           <li *ngFor="let link of quickLinks">
@@ -42,8 +42,20 @@
         </ul>
       </div>
 
-      <!-- Columna 3: ubicación -->
-      <div class="col-lg-4 footer-col footer-col--ubicacion">
+      <!-- Columna 3: EL10 Sports -->
+      <div class="col-lg-3 footer-col footer-col--el10">
+        <h4 class="footer-col-title">EL10 Sports</h4>
+        <a [routerLink]="el10MerchRoute" class="footer-el10-link">
+          <img [src]="el10LogoSrc" [alt]="el10LogoAlt" class="footer-el10-logo">
+        </a>
+        <p class="footer-el10-desc">Camisas, gorras y artículos oficiales del Mundial 2026.</p>
+        <a [routerLink]="el10MerchRoute" class="footer-map-link">
+          Ir a la tienda <span class="footer-map-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <!-- Columna 4: ubicación -->
+      <div class="col-lg-3 footer-col footer-col--ubicacion">
         <h4 class="footer-col-title">Ubicación</h4>
 
         <div class="footer-ubicacion-item">
