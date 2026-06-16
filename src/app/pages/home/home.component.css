@@ -52,6 +52,79 @@
 
 /* Tamaño del logo hero en papus-theme (.papus-logo-shell--hero) */
 
+.hero-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 1.25rem;
+}
+
+.hero-logos .hero-logo-principal-wrap.papus-logo-shell--hero {
+  width: auto;
+  height: auto;
+  margin: 0;
+}
+
+.hero-logos .logo-principal.papus-brand-logo {
+  width: auto;
+  height: 110px;
+}
+
+.hero-logos .logo-secundario {
+  height: 110px;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s var(--ease-out-expo, ease);
+}
+
+.hero-logos .logo-principal,
+.hero-logos .logo-secundario {
+  transition: transform 0.3s var(--ease-out-expo, ease);
+}
+
+.hero-logos .logo-principal:hover,
+.hero-el10-link:hover .logo-secundario {
+  transform: scale(1.05);
+}
+
+.hero-logos .logo-divider {
+  width: 1px;
+  height: 60px;
+  background: #C9A84C;
+  opacity: 0.4;
+  flex-shrink: 0;
+  transform-origin: center center;
+}
+
+.hero-el10-link {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  line-height: 0;
+  text-decoration: none;
+}
+
+@media (max-width: 767.98px) {
+  .hero-logos {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .hero-logos .logo-divider {
+    width: 60px;
+    height: 1px;
+    transform-origin: center center;
+  }
+
+  .hero-logos .logo-principal,
+  .hero-logos .logo-secundario {
+    height: 80px;
+  }
+}
+
 .papus-hero-line {
   width: 0;
   height: 2px;

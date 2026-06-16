@@ -18,7 +18,14 @@ import { Barbero } from '../../models/barbero.model';
 import { GsapAnimationService } from '../../services/gsap-animation.service';
 import { MapWrapperComponent } from '../../shared/components/map/map-wrapper.component';
 import { PAPUS_GOOGLE_MAPS_DIRECTIONS_URL } from '../../shared/constants/papus-location';
-import { PAPUS_LOGO_ALT, PAPUS_LOGO_SRC } from '../../shared/constants/papus-brand';
+import {
+  EL10_HERO_TOOLTIP,
+  EL10_LOGO_ALT,
+  EL10_LOGO_SRC,
+  EL10_MERCH_ROUTE,
+  PAPUS_LOGO_ALT,
+  PAPUS_LOGO_SRC
+} from '../../shared/constants/papus-brand';
 
 interface AccessCard {
   title: string;
@@ -43,6 +50,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('heroBg') heroBg?: ElementRef<HTMLElement>;
   @ViewChild('loadOverlay') loadOverlay?: ElementRef<HTMLElement>;
   @ViewChild('heroLogo') heroLogo?: ElementRef<HTMLImageElement>;
+  @ViewChild('heroEl10Logo') heroEl10Logo?: ElementRef<HTMLImageElement>;
+  @ViewChild('heroLogoDivider') heroLogoDivider?: ElementRef<HTMLElement>;
   @ViewChild('heroLine') heroLine?: ElementRef<HTMLElement>;
   @ViewChild('heroSubtitle') heroSubtitle?: ElementRef<HTMLElement>;
   @ViewChild('heroCtas') heroCtas?: ElementRef<HTMLElement>;
@@ -62,6 +71,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly googleMapsUrl = PAPUS_GOOGLE_MAPS_DIRECTIONS_URL;
   readonly logoSrc = PAPUS_LOGO_SRC;
   readonly logoAlt = PAPUS_LOGO_ALT;
+  readonly el10LogoSrc = EL10_LOGO_SRC;
+  readonly el10LogoAlt = EL10_LOGO_ALT;
+  readonly el10MerchRoute = EL10_MERCH_ROUTE;
+  readonly el10HeroTooltip = EL10_HERO_TOOLTIP;
 
   accessCards: AccessCard[] = [
     {
@@ -145,6 +158,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       {
         overlay: this.loadOverlay?.nativeElement,
         logo: this.heroLogo?.nativeElement,
+        secondaryLogo: this.heroEl10Logo?.nativeElement,
+        logoDivider: this.heroLogoDivider?.nativeElement,
         line: this.heroLine?.nativeElement,
         title: this.heroTitle?.nativeElement,
         subtitle: this.heroSubtitle?.nativeElement,

@@ -10,8 +10,26 @@
     <div class="papus-hero-overlay"></div>
 
     <div class="papus-hero-content">
-      <div class="papus-logo-shell papus-logo-shell--hero">
-        <img [src]="logoSrc" [alt]="logoAlt" class="papus-hero-logo papus-brand-logo" #heroLogo>
+      <div class="hero-logos" #heroLogos>
+        <div class="papus-logo-shell papus-logo-shell--hero hero-logo-principal-wrap">
+          <img
+            [src]="logoSrc"
+            [alt]="logoAlt"
+            class="papus-hero-logo papus-brand-logo logo-principal"
+            #heroLogo>
+        </div>
+        <div class="logo-divider" #heroLogoDivider aria-hidden="true"></div>
+        <a
+          [routerLink]="el10MerchRoute"
+          class="hero-el10-link"
+          [title]="el10HeroTooltip"
+          #heroEl10Link>
+          <img
+            [src]="el10LogoSrc"
+            [alt]="el10LogoAlt"
+            class="logo-secundario"
+            #heroEl10Logo>
+        </a>
       </div>
       <div class="papus-hero-line" #heroLine aria-hidden="true"></div>
       <h1 class="papus-hero-title papus-hero-title--brand" #heroTitle>PAPUS BARBERSHOP</h1>

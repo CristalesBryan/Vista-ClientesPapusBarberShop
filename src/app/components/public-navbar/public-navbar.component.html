@@ -25,12 +25,16 @@
            [fragment]="link.fragment"
            routerLinkActive="active"
            [routerLinkActiveOptions]="{ exact: link.path === '/' }"
-           (click)="onFragmentNav($event, link)">{{ link.label }}</a>
+           (click)="onFragmentNav($event, link)">
+          <i *ngIf="link.icon" [class]="link.icon + ' nav-link-icon'" aria-hidden="true"></i>{{ link.label }}
+        </a>
         <a *ngIf="!link.fragment"
            class="nav-link"
            [routerLink]="link.path"
            routerLinkActive="active"
-           (click)="closeMobile()">{{ link.label }}</a>
+           (click)="closeMobile()">
+          <i *ngIf="link.icon" [class]="link.icon + ' nav-link-icon'" aria-hidden="true"></i>{{ link.label }}
+        </a>
       </li>
     </ul>
   </nav>
@@ -47,7 +51,9 @@
      class="nav-mobile-link"
      [routerLink]="link.path"
      [fragment]="link.fragment"
-     (click)="link.fragment ? onFragmentNav($event, link) : closeMobile()">{{ link.label }}</a>
+     (click)="link.fragment ? onFragmentNav($event, link) : closeMobile()">
+    <i *ngIf="link.icon" [class]="link.icon + ' nav-mobile-link-icon'" aria-hidden="true"></i>{{ link.label }}
+  </a>
   <a routerLink="/citas" class="btn-papus-filled w-100 mt-3" (click)="closeMobile()">Reservar</a>
 </div>
 

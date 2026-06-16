@@ -45,6 +45,31 @@
   display: block;
 }
 
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.nav-link-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+.nav-mobile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-mobile-link-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.85;
+}
+
 @media (max-width: 575.98px) {
   .nav-el10-logo {
     height: 32px;

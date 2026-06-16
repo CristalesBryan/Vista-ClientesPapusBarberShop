@@ -555,6 +555,25 @@
   object-fit: contain;
   cursor: zoom-in;
   transition: transform var(--transition-base);
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Merchandising — colores reales en fotos de producto (sin filtros de marca) */
+.merch-page .merch-card-image,
+.merch-detail-page .merch-gallery-main-img,
+.merch-detail-page .merch-thumb img {
+  filter: none !important;
+  -webkit-filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+.merch-page .merch-card-image-wrap::before,
+.merch-page .merch-card-image-wrap::after,
+.merch-detail-page .merch-gallery-main::before,
+.merch-detail-page .merch-gallery-main::after {
+  content: none !important;
+  display: none !important;
 }
 
 .papus-compra-page .producto-imagen:hover {

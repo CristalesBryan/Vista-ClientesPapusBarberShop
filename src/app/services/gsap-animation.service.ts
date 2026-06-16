@@ -242,20 +242,22 @@ export class GsapAnimationService {
     return [yTween.scrollTrigger!, scaleTween.scrollTrigger!].filter(Boolean);
   }
 
-  /** Secuencia de carga: overlay → logo → línea → título → subtítulo → CTAs */
+  /** Secuencia de carga: overlay → logo → logo secundario → línea → título → subtítulo → CTAs */
   pageLoadSequence(elements: {
     overlay?: HTMLElement | null;
     logo?: HTMLElement | null;
+    secondaryLogo?: HTMLElement | null;
+    logoDivider?: HTMLElement | null;
     line?: HTMLElement | null;
     title?: HTMLElement | null;
     subtitle?: HTMLElement | null;
     ctas?: HTMLElement | null;
     scrollHint?: HTMLElement | null;
   }, onTitleReady?: (titleEl: HTMLElement) => void): void {
-    const { overlay, logo, line, title, subtitle, ctas, scrollHint } = elements;
+    const { overlay, logo, secondaryLogo, logoDivider, line, title, subtitle, ctas, scrollHint } = elements;
 
     if (this.reducedMotion) {
-      [overlay, logo, line, title, subtitle, ctas, scrollHint].forEach(el => {
+      [overlay, logo, secondaryLogo, logoDivider, line, title, subtitle, ctas, scrollHint].forEach(el => {
         if (el) gsap.set(el, { autoAlpha: 1, clearProps: 'transform' });
       });
       if (title) onTitleReady?.(title);
@@ -270,6 +272,20 @@ export class GsapAnimationService {
 
     if (logo) {
       tl.from(logo, { autoAlpha: 0, scale: 0.85, duration: 0.6 }, overlay ? '-=0.2' : 0);
+    }
+
+    if (secondaryLogo) {
+      tl.from(
+        secondaryLogo,
+        { autoAlpha: 0, x: 28, duration: 0.55 },
+        logo ? '-=0.4' : '+=0.2'
+      );
+    }
+
+    if (logoDivider && secondaryLogo) {
+      tl.from(logoDivider, { autoAlpha: 0, scale: 0.4, duration: 0.4 }, '<');
+    } else if (logoDivider) {
+      tl.from(logoDivider, { autoAlpha: 0, duration: 0.35 }, logo ? '-=0.15' : 0);
     }
 
     if (line) {

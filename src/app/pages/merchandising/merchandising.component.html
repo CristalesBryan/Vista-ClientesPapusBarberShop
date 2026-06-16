@@ -1,15 +1,16 @@
 <div class="papus-compra-page merch-page" #pageRoot>
-  <header class="papus-internal-hero">
-    <div class="merch-el10-header">
-      <a routerLink="/merchandising" class="merch-el10-brand">
-        <img
-          #el10Logo
-          [src]="el10LogoSrc"
-          [alt]="el10LogoAlt"
-          class="merch-el10-logo">
-      </a>
-      <p class="merch-el10-tagline">Camisas, gorras y artículos oficiales del Mundial 2026</p>
+  <section
+    class="merch-hero reveal-section"
+    [style.backgroundImage]="'url(' + el10HeroBannerSrc + ')'"
+    role="banner"
+    [attr.aria-label]="el10LogoAlt">
+    <div class="merch-hero-overlay">
+      <div class="merch-hero-line" aria-hidden="true"></div>
+      <p class="merch-hero-tagline">Camisas, gorras y artículos oficiales del Mundial 2026</p>
     </div>
+  </section>
+
+  <header class="merch-content-header papus-internal-hero">
     <div class="papus-section-line reveal-section"></div>
     <h1 class="reveal-section"><i class="fas fa-tshirt me-2"></i> Merchandising Papus</h1>
     <p class="reveal-section">Ropa y accesorios exclusivos de Papus BarberShop.</p>

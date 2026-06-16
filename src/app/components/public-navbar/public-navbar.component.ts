@@ -15,6 +15,7 @@ interface NavLink {
   path: string;
   label: string;
   fragment?: string;
+  icon?: string;
 }
 
 @Component({
@@ -38,6 +39,7 @@ export class PublicNavbarComponent implements OnInit, OnDestroy {
   links: NavLink[] = [
     { path: '/', fragment: 'servicios', label: 'Servicios' },
     { path: '/', fragment: 'galeria', label: 'Galería' },
+    { path: EL10_MERCH_ROUTE, label: 'Tienda', icon: 'ti ti-shopping-bag' },
     { path: '/acerca-de-nosotros', label: 'Nosotros' },
     { path: '/', fragment: 'ubicacion', label: 'Contacto' }
   ];

@@ -1,35 +1,88 @@
 /* Merchandising catálogo — extiende tema papus-compra */
 
-.merch-el10-header {
+.merch-page {
+  --merch-page-pad-x: 1.5rem;
+  --merch-page-pad-top: 2rem;
+}
+
+.merch-hero {
+  position: relative;
+  height: clamp(200px, 28vw, 320px);
+  min-height: 200px;
+  max-height: 320px;
+  margin: calc(-1 * var(--merch-page-pad-top)) calc(-1 * var(--merch-page-pad-x)) 0;
+  width: calc(100% + (2 * var(--merch-page-pad-x)));
+  background-color: #0a0a0a;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.merch-hero-overlay {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  margin-bottom: 1.25rem;
+  padding: 1.5rem 1.25rem;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 0.4),
+    rgba(10, 10, 10, 0.85)
+  );
 }
 
-.merch-el10-brand {
-  display: inline-block;
-  line-height: 0;
-  text-decoration: none;
-  margin-bottom: 0.85rem;
+.merch-hero-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin-bottom: 1rem;
 }
 
-.merch-el10-logo {
-  height: clamp(120px, 22vw, 180px);
-  width: auto;
-  object-fit: contain;
-  display: block;
-  visibility: hidden;
-}
-
-.merch-el10-tagline {
-  color: var(--cream-muted);
-  font-size: clamp(0.9rem, 2vw, 1.05rem);
-  letter-spacing: 0.04em;
-  max-width: 520px;
+.merch-hero-tagline {
+  color: var(--cream);
+  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  letter-spacing: 0.05em;
+  max-width: 560px;
   margin: 0;
   line-height: 1.55;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
+}
+
+.merch-content-header {
+  margin-top: 2rem;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.merch-content-header .papus-section-line {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 767.98px) {
+  .merch-page {
+    --merch-page-pad-x: 1rem;
+    --merch-page-pad-top: 1.25rem;
+  }
+
+  .merch-hero {
+    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
+  }
+
+  .merch-hero-tagline {
+    font-size: 0.88rem;
+    letter-spacing: 0.03em;
+  }
+
+  .merch-hero-line {
+    width: 48px;
+    margin-bottom: 0.75rem;
+  }
 }
 
 .merch-page .merch-filter-label {
@@ -53,6 +106,7 @@
 .merch-card:hover {
   transform: translateY(-4px);
   border-color: var(--gold);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(201, 168, 76, 0.15);
 }
 
 .merch-card-link {
@@ -65,20 +119,39 @@
 
 .merch-card-image-wrap {
   position: relative;
-  background: var(--ink-elevated);
+  background: #0a0a0a;
   aspect-ratio: 1;
   overflow: hidden;
+  isolation: isolate;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.12);
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.merch-card-image-wrap::before,
+.merch-card-image-wrap::after {
+  content: none;
+  display: none;
 }
 
 .merch-card-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
+  padding: 0.5rem;
+  display: block;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  opacity: 1;
   transition: transform 0.45s ease;
 }
 
+.merch-card:hover .merch-card-image-wrap {
+  box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.28);
+}
+
 .merch-card:hover .merch-card-image {
-  transform: scale(1.06);
+  transform: scale(1.04);
 }
 
 .merch-card-badges {
@@ -117,14 +190,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.5);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
   z-index: 1;
 }
 
-.merch-card:hover .merch-card-overlay {
-  opacity: 1;
+@media (hover: hover) {
+  .merch-card:hover .merch-card-overlay {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .merch-card-overlay-text {

@@ -11,11 +11,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { GsapAnimationService } from '../../services/gsap-animation.service';
-import { gsap } from 'gsap';
 import { MerchandisingService } from '../../services/merchandising.service';
 import {
-  EL10_LOGO_ALT,
-  EL10_LOGO_SRC
+  EL10_HERO_BANNER_SRC,
+  EL10_LOGO_ALT
 } from '../../shared/constants/papus-brand';
 import { ProductoMerch, CATEGORIAS_MERCH } from '../../models/merchandising.model';
 import { PapusCarritoComponent, CarritoItem } from '../../components/papus-carrito/papus-carrito.component';
@@ -38,11 +37,10 @@ import {
 })
 export class MerchandisingComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('pageRoot') pageRoot?: ElementRef<HTMLElement>;
-  @ViewChild('el10Logo') el10Logo?: ElementRef<HTMLImageElement>;
 
   private gsapCtx?: ReturnType<GsapAnimationService['context']>;
 
-  readonly el10LogoSrc = EL10_LOGO_SRC;
+  readonly el10HeroBannerSrc = EL10_HERO_BANNER_SRC;
   readonly el10LogoAlt = EL10_LOGO_ALT;
 
   productos: ProductoMerch[] = [];
@@ -78,19 +76,6 @@ export class MerchandisingComponent implements OnInit, AfterViewInit, OnDestroy 
     const root = this.pageRoot?.nativeElement;
     if (!root) return;
     this.gsapCtx = this.gsapService.context(root, () => {
-      const logo = this.el10Logo?.nativeElement;
-      if (logo) {
-        if (this.gsapService.prefersReducedMotion) {
-          gsap.set(logo, { autoAlpha: 1, scale: 1 });
-        } else {
-          gsap.from(logo, {
-            autoAlpha: 0,
-            scale: 0.82,
-            duration: 0.75,
-            ease: 'power3.out'
-          });
-        }
-      }
       this.gsapService.scrollReveal(root, '.reveal-section');
     });
     setTimeout(() => this.tryAnimateProducts());
