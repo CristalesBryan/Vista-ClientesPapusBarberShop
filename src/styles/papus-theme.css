@@ -61,6 +61,20 @@
   flex-shrink: 0;
 }
 
+@media (max-width: 575.98px) {
+  .papus-logo-shell--nav {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+@media (max-width: 380px) {
+  .papus-logo-shell--nav {
+    width: 32px;
+    height: 32px;
+  }
+}
+
 .papus-logo-shell--footer {
   width: 68px;
   height: 68px;
@@ -986,6 +1000,11 @@ body.sidebar-collapsed.papus-admin .content-area.with-sidebar {
 }
 
 @media (max-width: 768px) {
+  .papus-public-nav {
+    padding: 0 1rem;
+    gap: 0.5rem;
+  }
+
   .papus-public-nav .nav-links {
     display: none;
   }
