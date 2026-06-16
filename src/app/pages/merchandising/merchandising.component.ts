@@ -13,8 +13,8 @@ import { RouterLink } from '@angular/router';
 import { GsapAnimationService } from '../../services/gsap-animation.service';
 import { MerchandisingService } from '../../services/merchandising.service';
 import {
-  EL10_HERO_BANNER_SRC,
-  EL10_LOGO_ALT
+  EL10_LOGO_ALT,
+  EL10_LOGO_SRC
 } from '../../shared/constants/papus-brand';
 import { ProductoMerch, CATEGORIAS_MERCH } from '../../models/merchandising.model';
 import { PapusCarritoComponent, CarritoItem } from '../../components/papus-carrito/papus-carrito.component';
@@ -40,7 +40,7 @@ export class MerchandisingComponent implements OnInit, AfterViewInit, OnDestroy 
 
   private gsapCtx?: ReturnType<GsapAnimationService['context']>;
 
-  readonly el10HeroBannerSrc = EL10_HERO_BANNER_SRC;
+  readonly el10LogoSrc = EL10_LOGO_SRC;
   readonly el10LogoAlt = EL10_LOGO_ALT;
 
   productos: ProductoMerch[] = [];
@@ -183,7 +183,14 @@ export class MerchandisingComponent implements OnInit, AfterViewInit, OnDestroy 
   private tryAnimateProducts(): void {
     const root = this.pageRoot?.nativeElement;
     if (!root || this.cargando || !this.productosFiltrados.length) return;
-    this.gsapService.revealStagger(root, '.reveal-merch-card', 0.08);
+
+    if (this.gsapCtx) {
+      this.gsapCtx.add(() => {
+        this.gsapService.revealStagger(root, '.reveal-merch-card', 0.08);
+      });
+    } else {
+      this.gsapService.revealStagger(root, '.reveal-merch-card', 0.08);
+    }
   }
 
   // Carrito

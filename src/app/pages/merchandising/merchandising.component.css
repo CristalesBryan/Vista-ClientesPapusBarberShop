@@ -7,49 +7,56 @@
 
 .merch-hero {
   position: relative;
-  height: clamp(200px, 28vw, 320px);
-  min-height: 200px;
-  max-height: 320px;
+  min-height: clamp(260px, 30vw, 320px);
   margin: calc(-1 * var(--merch-page-pad-top)) calc(-1 * var(--merch-page-pad-x)) 0;
   width: calc(100% + (2 * var(--merch-page-pad-x)));
-  background-color: #0a0a0a;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0a0a0a;
+  background-image:
+    radial-gradient(ellipse 75% 55% at 50% 38%, rgba(201, 168, 76, 0.07), transparent 70%),
+    linear-gradient(180deg, #0a0a0a 0%, #121212 48%, #0a0a0a 100%);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
 }
 
-.merch-hero-overlay {
-  position: absolute;
-  inset: 0;
+.merch-hero-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 1.5rem 1.25rem;
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 10, 10, 0.4),
-    rgba(10, 10, 10, 0.85)
-  );
+  padding: 1.75rem 1.25rem 1.5rem;
+  width: 100%;
+  max-width: 720px;
+}
+
+.merch-hero-logo {
+  max-height: 180px;
+  width: auto;
+  max-width: min(92vw, 320px);
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 0.85rem;
+  filter: none;
 }
 
 .merch-hero-line {
   width: 60px;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 
 .merch-hero-tagline {
-  color: var(--cream);
-  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  color: var(--cream-muted);
+  font-size: clamp(0.9rem, 2.1vw, 1.05rem);
   letter-spacing: 0.05em;
-  max-width: 560px;
+  max-width: 520px;
   margin: 0;
   line-height: 1.55;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
 }
 
 .merch-content-header {
@@ -69,9 +76,13 @@
   }
 
   .merch-hero {
-    height: 200px;
-    min-height: 200px;
-    max-height: 200px;
+    min-height: 220px;
+  }
+
+  .merch-hero-logo {
+    max-height: 120px;
+    max-width: min(88vw, 220px);
+    margin-bottom: 0.65rem;
   }
 
   .merch-hero-tagline {
@@ -100,6 +111,8 @@
   border-top: 2px solid var(--gold);
   border-radius: var(--radius-md);
   overflow: hidden;
+  opacity: 1;
+  visibility: visible;
   transition: transform var(--transition-base), border-color var(--transition-base);
 }
 

@@ -324,21 +324,42 @@ export class GsapAnimationService {
     selector: string,
     stagger = 0.1
   ): void {
-    if (this.reducedMotion) return;
-    const targets = scope.querySelectorAll(selector);
+    const targets = gsap.utils.toArray<HTMLElement>(scope.querySelectorAll(selector));
     if (!targets.length) return;
-    gsap.from(targets, {
+
+    if (this.reducedMotion) {
+      gsap.set(targets, { autoAlpha: 1, y: 0, clearProps: 'transform' });
+      return;
+    }
+
+    targets.forEach(target => {
+      gsap.killTweensOf(target);
+      ScrollTrigger.getAll().forEach(st => {
+        if (st.trigger === target) st.kill();
+      });
+    });
+
+    const tween = gsap.from(targets, {
       autoAlpha: 0,
       y: 40,
       duration: 0.75,
       stagger,
       ease: 'power3.out',
+      immediateRender: false,
       scrollTrigger: {
         trigger: targets[0],
-        start: 'top 88%',
-        once: true
+        start: 'top 95%',
+        once: true,
+        invalidateOnRefresh: true
       }
     });
+
+    ScrollTrigger.refresh();
+
+    const alreadyVisible = targets[0].getBoundingClientRect().top < window.innerHeight * 0.95;
+    if (alreadyVisible) {
+      tween.progress(1);
+    }
   }
 
   accessCardHover(card: HTMLElement): () => void {
